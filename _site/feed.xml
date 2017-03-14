@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title></title>
+    <link>http://localhost:4000</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+    <description></description>
+    <language>en-us</language>
+    <pubDate>Tue, 14 Mar 2017 19:22:36 +0300</pubDate>
+    <lastBuildDate>Tue, 14 Mar 2017 19:22:36 +0300</lastBuildDate>
+
+    
+      <item>
+        <title>Jekyll İle Blog Oluşturma</title>
+        <link>http://localhost:4000/jekyll-ile-blog-kurulumu</link>
+        <pubDate>Tue, 14 Mar 2017 00:00:00 +0300</pubDate>
+        <author></author>
+        <description>&lt;p&gt;      Jekyll , Ruby kullanılarak yazılmış bir statik site üreticisidir. Jekyll, markdown ve scss formatında yazdığımız yazıları html ve css kodlarına çevirerek  sitemizi üretir. Bilgisayarımıza ‘RubyGems’ ile jekyll kurmak için aşağıdaki komutu terminale yazabilirsiniz.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;gem install jekyll&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;      Jekyll artık kuruldu. Şimdi statik blog sitemizi oluştuma aşamasına geçebiliriz. Site klasörümüzü 
+oluştumak istediğimiz dizine gidip aşağıdaki komutları girerek site klasörünü meydana getirebiliriz.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;jekyll new klasor_adi&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;      Klasörümüz oluşturuldu. İlk komut ile dosyaların olduğu dizine gidip sonrasında ikinci komut ile sitemizi
+localhost’umuzda yayınlayabiliriz.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;cd klasor_adi&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;jekyll serve&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;      Çalışan servisi tarayıcımızdan http://localhost:4000 adresine giderek görebiliriz. Burada Jekyll’ ın bize 
+default olarak oluşturduğu siteyi göreceğiz. &lt;a href=&quot;http://jekyllthemes.org/&quot;&gt;http://jekyllthemes.org/&lt;/a&gt; adresini ziyaret ederek buradan çevrimiçi tema edinip ,doğrudan  veya üzerinde değişiklikler yaparak kendi blogumuzu düzenleyebiliriz.&lt;/p&gt;
+
+&lt;p&gt;      Oluşturduğumuz siteyi github üzerinden yayınlamak için öncelikle bir github hesabımız olması gerekiyor.
+&lt;a href=&quot;https://github.com/&quot;&gt;https://github.com/&lt;/a&gt; adresini ziyaret ederek bir github hesabi açabiliriz. Oturum açıp profile girdikten sonra Repository bölümüne gelip buradan da new butonuna tıklayarak yenir bir repository oluşturabiliriz.
+Bu repository bizim blogumuzdaki tüm dosyaları tutacak yer olacak. Repository ‘nin adı, &lt;strong&gt;githubkullaniciadi.github.io&lt;/strong&gt; şeklinde olmalıdır. Böylece blog sayfamız için gereken repository ‘i
+ oluşturmuş olduk.  Şimdi sitemizi bu repository ‘e yollamaya geldi. Bundan önce sitemizi localhost’dan çıkarıp tüm ağlarda tanınır hale getirecek olduğumuz için site klasörümüz içerisindeki &lt;strong&gt;_config.yml&lt;/strong&gt; dosyasında bir değişiklik yapmamız gerekiyor. Buradaki&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;url : “”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;kısmını&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;url : “https://githubkullaniciadi.github.io”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;olarak düzenliyoruz.&lt;/p&gt;
+
+&lt;p&gt;      Şimdi sıra geldi dosyalarımız github repository’ imize yollamaya. Bunun için terminale gelip aşağıdaki komutları yazabiliriz ve dosyalarımızı gönderebiliriz.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;cd klasor_adi&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;git init&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;git remote add origin https://github.com/githubkullaniciadi/githubkullaniciadi.github.io.git&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;git add -A&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;git commit -m “gönderi”&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;git push origin master&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;      Jekyll kullanımı kolay ve github üzerinden çalışabilen güncel bir servistir. Değişiklikler anlamında daha fazla hareket edebilmek ve kullanışlı olması açısından  için &lt;strong&gt;Markdown&lt;/strong&gt; syntax yapısı araştırılabilir.&lt;/p&gt;
+
+</description>
+      </item>
+    
+
+  </channel>
+</rss>

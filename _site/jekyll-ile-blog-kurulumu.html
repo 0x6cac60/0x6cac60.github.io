@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta information -->
+<meta charset="utf-8">
+<meta name="description" 
+      content="      Jekyll , Ruby kullanılarak yazılmış bir statik site üreticisidir. Jekyll, markdown ve scss formatında yazdığımı..." >
+<meta name="author" content="7122016">
+
+<!-- Enable responsiveness on mobile devices-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+<!-- title -->
+<title>Jekyll İle Blog Oluşturma &middot; </title>
+
+<!-- icons -->
+<link rel="shortcut icon" href="/public/images/favicon.ico" />
+
+<!-- stylesheets -->
+<link rel="stylesheet" href="/public/css/responsive.gs.12col.css">
+<link rel="stylesheet" href="/public/css/animate.min.css">
+<link rel="stylesheet" href="/public/css/main.css">
+
+<!-- Google fonts -->
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic&subset=latin-ext">
+
+
+
+<!-- feed links -->
+<link rel="alternate" href="http://localhost:4000/feed.xml" type="application/rss+xml" title="">
+
+  </head>
+  <body>
+    <div class="container azul">
+      <header class="top row gutters">
+        <div class="col span_2 center">
+          <!-- TODO: add baseurl to the logo link -->
+          <a href="http://localhost:4000" id="logo" title="7122016"
+             style="background-image: url(/public/images/);"></a>
+        </div>
+        <nav class="col span_10 top-navbar">
+  
+  <a href="/" title="Anasayfa"
+     >Anasayfa</a>
+  
+  <a href="/iletisim.html" title="Hakkında"
+     >Hakkında</a>
+  
+</nav>
+
+      </header>
+      <h2><center>Gönderiler</center></h2>
+      <article class="single row gutters">
+  <time class="published" datetime="2017-03-14">14 March 2017</time>
+  <h2>Jekyll İle Blog Oluşturma</h2>
+
+  <p>      Jekyll , Ruby kullanılarak yazılmış bir statik site üreticisidir. Jekyll, markdown ve scss formatında yazdığımız yazıları html ve css kodlarına çevirerek  sitemizi üretir. Bilgisayarımıza ‘RubyGems’ ile jekyll kurmak için aşağıdaki komutu terminale yazabilirsiniz.</p>
+
+<blockquote>
+  <blockquote>
+    <p>gem install jekyll</p>
+  </blockquote>
+</blockquote>
+
+<p>      Jekyll artık kuruldu. Şimdi statik blog sitemizi oluştuma aşamasına geçebiliriz. Site klasörümüzü 
+oluştumak istediğimiz dizine gidip aşağıdaki komutları girerek site klasörünü meydana getirebiliriz.</p>
+
+<blockquote>
+  <blockquote>
+    <p>jekyll new klasor_adi</p>
+  </blockquote>
+</blockquote>
+
+<p>      Klasörümüz oluşturuldu. İlk komut ile dosyaların olduğu dizine gidip sonrasında ikinci komut ile sitemizi
+localhost’umuzda yayınlayabiliriz.</p>
+
+<blockquote>
+  <blockquote>
+    <p>cd klasor_adi</p>
+  </blockquote>
+</blockquote>
+
+<blockquote>
+  <blockquote>
+    <p>jekyll serve</p>
+  </blockquote>
+</blockquote>
+
+<p>      Çalışan servisi tarayıcımızdan http://localhost:4000 adresine giderek görebiliriz. Burada Jekyll’ ın bize 
+default olarak oluşturduğu siteyi göreceğiz. <a href="http://jekyllthemes.org/">http://jekyllthemes.org/</a> adresini ziyaret ederek buradan çevrimiçi tema edinip ,doğrudan  veya üzerinde değişiklikler yaparak kendi blogumuzu düzenleyebiliriz.</p>
+
+<p>      Oluşturduğumuz siteyi github üzerinden yayınlamak için öncelikle bir github hesabımız olması gerekiyor.
+<a href="https://github.com/">https://github.com/</a> adresini ziyaret ederek bir github hesabi açabiliriz. Oturum açıp profile girdikten sonra Repository bölümüne gelip buradan da new butonuna tıklayarak yenir bir repository oluşturabiliriz.
+Bu repository bizim blogumuzdaki tüm dosyaları tutacak yer olacak. Repository ‘nin adı, <strong>githubkullaniciadi.github.io</strong> şeklinde olmalıdır. Böylece blog sayfamız için gereken repository ‘i
+ oluşturmuş olduk.  Şimdi sitemizi bu repository ‘e yollamaya geldi. Bundan önce sitemizi localhost’dan çıkarıp tüm ağlarda tanınır hale getirecek olduğumuz için site klasörümüz içerisindeki <strong>_config.yml</strong> dosyasında bir değişiklik yapmamız gerekiyor. Buradaki</p>
+<ul>
+  <li>url : “”</li>
+</ul>
+
+<p>kısmını</p>
+
+<ul>
+  <li>url : “https://githubkullaniciadi.github.io”</li>
+</ul>
+
+<p>olarak düzenliyoruz.</p>
+
+<p>      Şimdi sıra geldi dosyalarımız github repository’ imize yollamaya. Bunun için terminale gelip aşağıdaki komutları yazabiliriz ve dosyalarımızı gönderebiliriz.</p>
+
+<blockquote>
+  <blockquote>
+    <p>cd klasor_adi</p>
+  </blockquote>
+</blockquote>
+
+<blockquote>
+  <blockquote>
+    <p>git init</p>
+  </blockquote>
+</blockquote>
+
+<blockquote>
+  <blockquote>
+    <p>git remote add origin https://github.com/githubkullaniciadi/githubkullaniciadi.github.io.git</p>
+  </blockquote>
+</blockquote>
+
+<blockquote>
+  <blockquote>
+    <p>git add -A</p>
+  </blockquote>
+</blockquote>
+
+<blockquote>
+  <blockquote>
+    <p>git commit -m “gönderi”</p>
+  </blockquote>
+</blockquote>
+
+<blockquote>
+  <blockquote>
+    <p>git push origin master</p>
+  </blockquote>
+</blockquote>
+
+<p>      Jekyll kullanımı kolay ve github üzerinden çalışabilen güncel bir servistir. Değişiklikler anlamında daha fazla hareket edebilmek ve kullanışlı olması açısından  için <strong>Markdown</strong> syntax yapısı araştırılabilir.</p>
+
+
+</article>
+
+
+      <footer>
+        <p>
+          Tüm hakları <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/deed.en_US">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
+	altında saklıdır.     
+   </p>
+      </footer>
+    </div>
+
+    <!-- scripts -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/public/js/jquery.fitvids.js"></script>
+    <script>
+      $(document).ready(function(){
+        $("article").fitVids();
+      });
+    </script>
+  </body>
+</html>

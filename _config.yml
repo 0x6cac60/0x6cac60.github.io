@@ -1,0 +1,13 @@
+title: 0x6CAC60
+author: 0x6CAC60
+description: 0x6CAC60
+
+highlighter: null
+permalink: /:title
+
+url: "https://0x6cac60.github.io"
+baseurl:
+
+sass:
+  sass_dir: public/css
+  style: :compressed
