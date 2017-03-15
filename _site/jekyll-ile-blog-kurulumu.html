@@ -56,35 +56,25 @@
 
   <p>      Jekyll , Ruby kullanılarak yazılmış bir statik site üreticisidir. Jekyll, markdown ve scss formatında yazdığımız yazıları html ve css kodlarına çevirerek  sitemizi üretir. Bilgisayarımıza ‘RubyGems’ ile jekyll kurmak için aşağıdaki komutu terminale yazabilirsiniz.</p>
 
-<blockquote>
-  <blockquote>
-    <p>gem install jekyll</p>
-  </blockquote>
-</blockquote>
+<div class="highlighter-rouge"><pre class="highlight"><code>gem install jekyll 
+</code></pre>
+</div>
 
 <p>      Jekyll artık kuruldu. Şimdi statik blog sitemizi oluştuma aşamasına geçebiliriz. Site klasörümüzü 
 oluştumak istediğimiz dizine gidip aşağıdaki komutları girerek site klasörünü meydana getirebiliriz.</p>
 
-<blockquote>
-  <blockquote>
-    <p>jekyll new klasor_adi</p>
-  </blockquote>
-</blockquote>
+<div class="highlighter-rouge"><pre class="highlight"><code>jekyll new klasor_adi
+</code></pre>
+</div>
 
 <p>      Klasörümüz oluşturuldu. İlk komut ile dosyaların olduğu dizine gidip sonrasında ikinci komut ile sitemizi
 localhost’umuzda yayınlayabiliriz.</p>
 
-<blockquote>
-  <blockquote>
-    <p>cd klasor_adi</p>
-  </blockquote>
-</blockquote>
+<div class="highlighter-rouge"><pre class="highlight"><code>cd klasor_adi
 
-<blockquote>
-  <blockquote>
-    <p>jekyll serve</p>
-  </blockquote>
-</blockquote>
+jekyll serve 
+</code></pre>
+</div>
 
 <p>      Çalışan servisi tarayıcımızdan http://localhost:4000 adresine giderek görebiliriz. Burada Jekyll’ ın bize 
 default olarak oluşturduğu siteyi göreceğiz. <a href="http://jekyllthemes.org/">http://jekyllthemes.org/</a> adresini ziyaret ederek buradan çevrimiçi tema edinip ,doğrudan  veya üzerinde değişiklikler yaparak kendi blogumuzu düzenleyebiliriz.</p>
@@ -107,41 +97,19 @@ Bu repository bizim blogumuzdaki tüm dosyaları tutacak yer olacak. Repository 
 
 <p>      Şimdi sıra geldi dosyalarımız github repository’ imize yollamaya. Bunun için terminale gelip aşağıdaki komutları yazabiliriz ve dosyalarımızı gönderebiliriz.</p>
 
-<blockquote>
-  <blockquote>
-    <p>cd klasor_adi</p>
-  </blockquote>
-</blockquote>
+<div class="highlighter-rouge"><pre class="highlight"><code>cd klasor_adi
 
-<blockquote>
-  <blockquote>
-    <p>git init</p>
-  </blockquote>
-</blockquote>
+git init
 
-<blockquote>
-  <blockquote>
-    <p>git remote add origin https://github.com/githubkullaniciadi/githubkullaniciadi.github.io.git</p>
-  </blockquote>
-</blockquote>
+git remote add origin https://github.com/githubkullaniciadi/githubkullaniciadi.github.io.git
 
-<blockquote>
-  <blockquote>
-    <p>git add -A</p>
-  </blockquote>
-</blockquote>
+git add -A
 
-<blockquote>
-  <blockquote>
-    <p>git commit -m “gönderi”</p>
-  </blockquote>
-</blockquote>
+git commit -m "gönderi"
 
-<blockquote>
-  <blockquote>
-    <p>git push origin master</p>
-  </blockquote>
-</blockquote>
+git push origin master
+</code></pre>
+</div>
 
 <p>      Jekyll kullanımı kolay ve github üzerinden çalışabilen güncel bir servistir. Değişiklikler anlamında daha fazla hareket edebilmek ve kullanışlı olması açısından  için <strong>Markdown</strong> syntax yapısı araştırılabilir.</p>
 

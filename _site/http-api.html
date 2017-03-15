@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta information -->
+<meta charset="utf-8">
+<meta name="description" 
+      content="      Günlük hayatta standart olarak görebileceğimiz veri kaydeden(Register Form) bir WEB uygulaması var elimizde. Uy..." >
+<meta name="author" content="7122016">
+
+<!-- Enable responsiveness on mobile devices-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+<!-- title -->
+<title>PHP ve Perl Kullanarak HttpApi Oluşturma &middot; </title>
+
+<!-- icons -->
+<link rel="shortcut icon" href="/public/images/favicon.ico" />
+
+<!-- stylesheets -->
+<link rel="stylesheet" href="/public/css/responsive.gs.12col.css">
+<link rel="stylesheet" href="/public/css/animate.min.css">
+<link rel="stylesheet" href="/public/css/main.css">
+
+<!-- Google fonts -->
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic&subset=latin-ext">
+
+
+
+<!-- feed links -->
+<link rel="alternate" href="http://localhost:4000/feed.xml" type="application/rss+xml" title="">
+
+  </head>
+  <body>
+    <div class="container azul">
+      <header class="top row gutters">
+        <div class="col span_2 center">
+          <!-- TODO: add baseurl to the logo link -->
+          <a href="http://localhost:4000" id="logo" title="7122016"
+             style="background-image: url(/public/images/);"></a>
+        </div>
+        <nav class="col span_10 top-navbar">
+  
+  <a href="/" title="Anasayfa"
+     >Anasayfa</a>
+  
+  <a href="/iletisim.html" title="Hakkında"
+     >Hakkında</a>
+  
+</nav>
+
+      </header>
+      <h2><center>Gönderiler</center></h2>
+      <article class="single row gutters">
+  <time class="published" datetime="2017-03-15">15 March 2017</time>
+  <h2>PHP ve Perl Kullanarak HttpApi Oluşturma</h2>
+
+  <p>      Günlük hayatta standart olarak görebileceğimiz veri kaydeden<strong>(Register Form)</strong> bir WEB 
+uygulaması var elimizde. Uygulama sizden bir takım veriler istiyor ve aldığı 
+verileri bir text dosyasına yazıyor .Bu bir database’de olabilirdi. Biz bu 
+işleme <strong>‘Post Method’</strong> diyoruz. Örneğimizde Standart bir form oluşturduk ve 
+bu forma girdiğimiz verileri, PHP komutları ile alıp birer değişkene atadık.
+Sonra PHP dosya işleme komutlarını (fopen,fwrite) kullanarak bunlara bir text
+dosyasına yazdırdık. Bu söylediğimiz gibi bir Database’de olabilirdi.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;?php
+ 
+
+$name = $_POST["name"];
+$surname = $_POST["surname"];
+
+
+$myfile = fopen("data.txt", "w") or die("Unable to open file!");
+  
+fwrite($myfile, $name);
+fwrite($myfile, $surname);
+fclose($myfile);
+echo $name;
+echo $surname;
+
+ 
+?&gt;
+</code></pre>
+</div>
+
+<p>      İkinci aşama olarak Perl dilini kullanarak POST işlemi gerçekleş-
+tirmeye çalıştık. <strong>‘LWP::UserAgent’</strong> sınıfını import ettik ve burada
+ tanımlı ‘POST’ işlemi ile hedef siteye POST işlemi gerçekleştirdik.
+ Post fonksiyonu parametre olarak URL ve post edilecek verileri alıyor. Bu 
+program sayesinde tarayıcıdan giriş yapmadanda uygulamaya verileri ‘POST’
+edebilirsiniz.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">#!/usr/bin/perl</span>
+
+<span class="k">use</span> <span class="nv">strict</span><span class="p">;</span>
+<span class="k">use</span> <span class="nv">warnings</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nn">LWP::</span><span class="nv">UserAgent</span><span class="p">;</span>
+<span class="k">use</span> <span class="nv">CGI</span><span class="p">;</span>
+
+<span class="k">my</span> <span class="nv">$isim</span> <span class="o">=</span> <span class="s">'Ctr1l'</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">$soyisim</span> <span class="o">=</span> <span class="s">'Plus'</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">$url</span> <span class="o">=</span> <span class="s">'http://localhost/HttpApi/testpost.php'</span><span class="p">;</span>
+
+<span class="k">my</span> <span class="nv">$ua</span>       <span class="o">=</span> <span class="nn">LWP::</span><span class="nv">UserAgent</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">();</span>
+<span class="k">my</span> <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$ua</span><span class="o">-&gt;</span><span class="nv">post</span><span class="p">(</span> <span class="nv">$url</span><span class="p">,</span> <span class="p">{</span> <span class="s">'name'</span> <span class="o">=&gt;</span> <span class="nv">$isim</span> <span class="p">,</span> <span class="s">'surname'</span> <span class="o">=&gt;</span> <span class="nv">$soyisim</span> <span class="p">}</span> <span class="p">);</span>
+<span class="k">my</span> <span class="nv">$content</span>  <span class="o">=</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nv">decoded_content</span><span class="p">();</span>
+
+<span class="k">my</span> <span class="nv">$cgi</span> <span class="o">=</span> <span class="nv">CGI</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">();</span>
+<span class="k">print</span> <span class="nv">$cgi</span><span class="o">-&gt;</span><span class="nv">header</span><span class="p">(),</span> <span class="nv">$content</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<blockquote>
+  <blockquote>
+    <p>Not: LWP :: UserAgent nesneleri, web isteklerini göndermek için kullanılabilir.</p>
+  </blockquote>
+</blockquote>
+
+<blockquote>
+  <blockquote>
+    <p>Not: CGI , HTTP isteklerini ve yanıtlarını hazırlamak için kullanılır.</p>
+  </blockquote>
+</blockquote>
+
+<p>       İçeride kullanılan HTML yapısı da basit bir biçimde şu biçimdedir:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;!doctype html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"utf-8"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;title&gt;&lt;/title&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">type=</span><span class="s">"text/css"</span> <span class="na">href=</span><span class="s">"style.css"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"testpost.php"</span>  <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"cont"</span><span class="nt">&gt;</span>
+
+<span class="nt">&lt;h1&gt;</span> REGISTER!<span class="nt">&lt;/h1&gt;</span>
+
+ 	Name : <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">placeholder=</span><span class="s">"Enter Username"</span> <span class="na">name=</span><span class="s">"name"</span><span class="nt">&gt;&lt;br&gt;&lt;br&gt;</span>
+Surname : <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">placeholder=</span><span class="s">"Enter Password"</span> <span class="na">name=</span><span class="s">"surname"</span><span class="nt">&gt;&lt;br&gt;&lt;br&gt;</span>
+	Register  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Go"</span><span class="nt">&gt;</span>
+
+<span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;/form&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+
+<span class="nt">&lt;/html&gt;</span>
+</code></pre>
+</div>
+
+
+</article>
+
+
+      <footer>
+        <p>
+          Tüm hakları <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/deed.en_US">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
+	altında saklıdır.     
+   </p>
+      </footer>
+    </div>
+
+    <!-- scripts -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/public/js/jquery.fitvids.js"></script>
+    <script>
+      $(document).ready(function(){
+        $("article").fitVids();
+      });
+    </script>
+  </body>
+</html>

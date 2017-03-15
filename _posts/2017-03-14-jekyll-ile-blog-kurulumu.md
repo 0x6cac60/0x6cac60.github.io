@@ -7,23 +7,23 @@ title: Jekyll İle Blog Oluşturma
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jekyll , Ruby kullanılarak yazılmış bir statik site üreticisidir. Jekyll, markdown ve scss formatında yazdığımız yazıları html ve css kodlarına çevirerek  sitemizi üretir. Bilgisayarımıza 'RubyGems' ile jekyll kurmak için aşağıdaki komutu terminale yazabilirsiniz. 
 
->>gem install jekyll 
+	gem install jekyll 
 
 
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jekyll artık kuruldu. Şimdi statik blog sitemizi oluştuma aşamasına geçebiliriz. Site klasörümüzü 
 oluştumak istediğimiz dizine gidip aşağıdaki komutları girerek site klasörünü meydana getirebiliriz.
 
->>jekyll new klasor_adi
+	jekyll new klasor_adi
 
 
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Klasörümüz oluşturuldu. İlk komut ile dosyaların olduğu dizine gidip sonrasında ikinci komut ile sitemizi
 localhost'umuzda yayınlayabiliriz. 
 
->>cd klasor_adi
+	cd klasor_adi
 
->>jekyll serve 
+	jekyll serve 
 
 
 
@@ -48,17 +48,17 @@ olarak düzenliyoruz.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Şimdi sıra geldi dosyalarımız github repository' imize yollamaya. Bunun için terminale gelip aşağıdaki komutları yazabiliriz ve dosyalarımızı gönderebiliriz.
 
->>cd klasor_adi
+	cd klasor_adi
 
->>git init
+	git init
 
->>git remote add origin https://github.com/githubkullaniciadi/githubkullaniciadi.github.io.git
+	git remote add origin https://github.com/githubkullaniciadi/githubkullaniciadi.github.io.git
 
->>git add -A
+	git add -A
 
->>git commit -m "gönderi"
+	git commit -m "gönderi"
 
->>git push origin master
+	git push origin master
 
 
 
