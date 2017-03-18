@@ -6,9 +6,256 @@
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Sat, 18 Mar 2017 00:24:59 +0300</pubDate>
-    <lastBuildDate>Sat, 18 Mar 2017 00:24:59 +0300</lastBuildDate>
+    <pubDate>Sun, 19 Mar 2017 00:19:33 +0300</pubDate>
+    <lastBuildDate>Sun, 19 Mar 2017 00:19:33 +0300</lastBuildDate>
 
+    
+      <item>
+        <title>Client-Server Örnekleri (Perl - Python)</title>
+        <link>http://localhost:4000/client-server-perl-python</link>
+        <pubDate>Sun, 19 Mar 2017 00:00:00 +0300</pubDate>
+        <author></author>
+        <description>&lt;h3&gt;Perl Client-Server&lt;/h3&gt;
+
+&lt;p&gt;      Burada Perl dilini kullanarak bir &lt;strong&gt;Client-Server&lt;/strong&gt; uygulaması gerçekleştirmeye çalıştık. 
+Tabiki olmazsa olmaz diyerekten &lt;strong&gt;Socket&lt;/strong&gt; kütüphanesini import ediyoruz. 
+&lt;strong&gt;IO::Socket::INET&lt;/strong&gt; ,AF_INET (ARPA Internet protocols) domain socketleri için nesne arayüzüdür.
+Bu sınıfı kullanarak bir nesne oluşturacağız. Bu nesne constractoru içerisinde aşağıdaki
+değişkenler bulunabilir.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;1. PeerAddr &lt;/li&gt;
+&lt;li&gt;2. PeerHost &lt;/li&gt;
+&lt;li&gt;3. PeerPort &lt;/li&gt;
+&lt;li&gt;4. LocalAddr &lt;/li&gt;
+&lt;li&gt;5. LocalHost &lt;/li&gt;
+&lt;li&gt;6. LocalPort &lt;/li&gt;
+&lt;li&gt;7. Proto &lt;/li&gt;
+&lt;li&gt;8. Type &lt;/li&gt;
+&lt;li&gt;9. Listen &lt;/li&gt;
+&lt;li&gt;10. ReuseAddr &lt;/li&gt;
+&lt;li&gt;11. Reuse &lt;/li&gt;
+&lt;li&gt;12. ReusePort &lt;/li&gt;
+&lt;li&gt;13. Broadcast &lt;/li&gt;
+&lt;li&gt;14. Timeout &lt;/li&gt;
+&lt;li&gt;15. MultiHomed &lt;/li&gt;
+&lt;li&gt;16. Blocking &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Biz buradan :&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;LocalHost&lt;/strong&gt; : Yerel makina bağlantı adresi&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;LocalPort&lt;/strong&gt; : Yerel makina bağlantı portu&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Proto&lt;/strong&gt;     : Bağlanti Protolü&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Listen&lt;/strong&gt;   :	Dinlemek için queue boyutu&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;PeerAddr&lt;/strong&gt;  : Uzak makina bağlantı adresi&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;PeerPort&lt;/strong&gt;  : Uzak makine bağlantı portu&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;değişkenlerini kullanacağız.&lt;/p&gt;
+
+&lt;p&gt;      Bağlantı kurulacak port numarasını dışarıdan input olarak alınmasını belirledik fakat 
+genelde yüksek numaralı portlar tercih edilir.&lt;/p&gt;
+
+&lt;p&gt;      Uygulama basit bir yazışma uygulaması olarak düşünülebilir. Karşı taraf için bir socket
+tanımlayıp  bağlantı beklenmeye başlanır . Bu socket karşı tarafın adresini ve port numarasını 
+içerir. Bağlantı sağlanınca devamında ‘basit’ yazışma kanalına girilir. Burada önce server 
+tarafı ve sonra client tarafı yazmak koşuluyla iletişim sağlanır.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Server Kısmı&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;#!/usr/bin/perl&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;IO::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;vg&quot;&gt;$|&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Port numarası giriniz...\n&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$port&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;&amp;lt;STDIN&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$socket&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;IO::Socket::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;INET&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;LocalHost&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'127.0.0.1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;LocalPort&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$port&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;Proto&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'tcp'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;Listen&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;die&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Port açılamadı!&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;unless&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Bağlantı bekleniyor...Port : $port\n &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    	&lt;span class=&quot;nv&quot;&gt;$client_socket&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    	&lt;span class=&quot;nv&quot;&gt;$client_socket&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$socket&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;accept&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    	&lt;span class=&quot;nv&quot;&gt;$peer_address&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$client_socket&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;peerhost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    	&lt;span class=&quot;nv&quot;&gt;$peer_port&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$client_socket&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;peerport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+    	&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;\n CTRL Chat Server'a  Bağlantı Kuruldu. ( $peer_address , $peer_port ) \n&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    	
+&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    	&lt;span class=&quot;nv&quot;&gt;$giden_veri&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;&amp;lt;STDIN&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$user1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Hakan: &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;nv&quot;&gt;$client_socket&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$user1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    	&lt;span class=&quot;nv&quot;&gt;$client_socket&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$giden_veri&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    	&lt;span class=&quot;nv&quot;&gt;$client_socket&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;recv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$gelen_veri&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    	&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$gelen_veri&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    	&lt;span class=&quot;nv&quot;&gt;$client_socket&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;autoflush&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; 
+
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;      &lt;strong&gt;Client&lt;/strong&gt; tarafı için yine aynı şekilde bir socket nesnesi oluşturuyoruz. &lt;strong&gt;PeerAddr&lt;/strong&gt; olarak görünen yer
+server adresidir. &lt;strong&gt;PeerPort&lt;/strong&gt; ise server’ın hangi portundan bağlantı sağlanacağıdır. Burada yine
+dışarıdan port numarasını input alarak ilerledik.Aynı port numarası girildiğinde 
+bağlantı sağlanır. Bağlantı kurulunca yazışma kanalına geçilir ve belirtilen 
+kurallar dahilinde  iletişim sağlanabilir.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Client Kısmı&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;#!/usr/bin/perl&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;IO::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Port numarası giriniz...\n&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$port&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;&amp;lt;STDIN&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+
+&lt;span class=&quot;nv&quot;&gt;$socket&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;IO::Socket::&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;INET&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+	&lt;span class=&quot;nv&quot;&gt;PeerAddr&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'127.0.0.1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+	&lt;span class=&quot;nv&quot;&gt;PeerPort&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt;  &lt;span class=&quot;nv&quot;&gt;$port&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+	&lt;span class=&quot;nv&quot;&gt;Proto&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'tcp'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;ow&quot;&gt;or&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;die&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Bağlantı Kurulamadı !\n&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    	&lt;span class=&quot;nv&quot;&gt;$socket&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;recv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$gelen_veri&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    	&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$gelen_veri&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;\n&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    	&lt;span class=&quot;nv&quot;&gt;$giden_veri&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;&amp;lt;STDIN&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;my&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$user2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Kullanici : &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;nv&quot;&gt;$socket&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$user2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    	&lt;span class=&quot;nv&quot;&gt;$socket&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$giden_veri&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3&gt;Python Client-Server&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Server Kısmı&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;import socket
+import socketserver
+import threading 
+
+class threadexample (threading.Thread): 
+   		def __init__(self, threadID, name):
+   			threading.Thread.__init__(self)
+   			self.threadID=threadID
+   			self.name = name
+   		def run(self):
+   			while True:
+     		a=baglanti.recv(1000)
+     		print(a.decode())
+   
+class threadexample2 (threading.Thread):
+   		def __init__(self, threadID, name):        
+    		threading.Thread.__init__(self)
+    		self.threadID=threadID
+    		self.name = name
+   		def run(self): 
+   			while True:
+       		a=input(&quot;Server: &quot;) 
+       		baglanti.send(a.encode())
+
+
+myserver=socket.socket()
+mylocal=socket.gethostname()
+
+myserver.bind((mylocal,3969))
+myserver.listen(5)
+
+while True:
+		baglanti, adress = myserver.accept()
+		print(&quot;Bağlantı Sağlandi...&quot;  )
+		print(adress)
+		thread1=threadexample(1,&quot;recv&quot;)
+		thread1.start()
+		thread1=threadexample2(2,&quot;send&quot;)
+		thread1.start()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Client Kısmı&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;import socket
+import sys
+import threading
+
+class threadexample (threading.Thread):
+		def __init__(self, threadID, name):        
+    		threading.Thread.__init__(self)
+    		self.threadID=threadID
+    		self.name = name
+		def run(self):
+    		while True:
+      		a=mysocket.recv(1000)
+      		print(a.decode())
+    
+class threadexample2 (threading.Thread):
+		def __init__(self, threadID, name):    
+     		threading.Thread.__init__(self)
+     		self.threadID=threadID
+     		self.name = name
+		def run(self):        
+    		while True:
+        		a=input(&quot;Client: &quot;)
+        		mysocket.send(a.encode())
+
+
+mysocket=socket.socket()
+
+#host=&quot;0x6cac60.github.io&quot;
+#addres=socket.gethostbyname(host)
+mylocal=socket.gethostname()
+port=3969
+
+mysocket.connect((mylocal,port))
+a=&quot;selam&quot;.encode()
+mysocket.send(a)
+#while True: 
+thread1=threadexample(1,&quot;recv&quot;)
+thread2=threadexample2(3,&quot;sxend&quot;)
+thread1.start()
+thread2.start()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;      Bu konu literatürde &lt;strong&gt;socket programlama&lt;/strong&gt; olarakta geçer.Bu yazışma programı Socket programlama 
+kapsamında basit bir &lt;strong&gt;Client-Server&lt;/strong&gt; uygulamasıdır.&lt;/p&gt;
+
+</description>
+      </item>
     
       <item>
         <title>WEB For Pentester 1 - SQL Injections Bölümü Çözümleri</title>
@@ -16,18 +263,18 @@
         <pubDate>Sat, 18 Mar 2017 00:00:00 +0300</pubDate>
         <author></author>
         <description>&lt;p&gt;      &lt;strong&gt;Web For Pentester&lt;/strong&gt; yaygın Web zafiyetlerini bize sunan ve bu zafiyetlerden yararlanmaya çalışarak çözümlere ulaştığımız
-bir test sistemidir. Bu adresten bilgisayarınıza indirebilirsiniz.&lt;a href=&quot;https://www.pentesterlab.com/exercises/web_for_pentester&quot;&gt;https://www.pentesterlab.com/exercises/web_for_pentester&lt;/a&gt;
+bir test sistemidir. Bu adresten bilgisayarınıza indirebilirsiniz.&lt;a href=&quot;https://www.pentesterlab.com/exercises/web_for_pentester&quot;&gt;Bu&lt;/a&gt; adresten bilgisayarınıza indirebilirsiniz.
 ISO kalıbı bilgisayarınıza indikten sonra Vmware,Virtual Machine gibi sanal makina sistemlerinden birine kurmanız gerekir. Kurulumdan sonra sanal makinenizdeki sistem de&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;blockquote&gt;
-    &lt;p&gt;&lt;strong&gt;»&lt;/strong&gt;ifconfig&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;»ifconfig&lt;/strong&gt;&lt;/p&gt;
   &lt;/blockquote&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;yazarak gördüğünüz IP adresini Ana makinenizdeki tarayıcınıza yazarak &lt;strong&gt;WFP&lt;/strong&gt; sorularına ulaşabilirsiniz.
-Bu yazıda &lt;strong&gt;SQL Injections&lt;/strong&gt; Bölümünün çözümlerini anlatmaya çalışacağız.Syntax yapısını sağlamak için gereken  URL encode karakterlerine şurayı ziyaret ederek ulaşabilirsiniz.
-&lt;a href=&quot;https://www.w3schools.com/tags/ref_urlencode.asp&quot;&gt;https://www.w3schools.com/tags/urlencode&lt;/a&gt;&lt;/p&gt;
+Bu yazıda &lt;strong&gt;SQL Injections&lt;/strong&gt; Bölümünün çözümlerini anlatmaya çalışacağız.Syntax yapısını sağlamak için gereken  URL encode karakterlerine de
+&lt;a href=&quot;https://www.w3schools.com/tags/ref_urlencode.asp&quot;&gt;şurayı&lt;/a&gt;	ziyaret ederek ulaşabilirsiniz.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Example 1&lt;/strong&gt;&lt;br /&gt;
       Soruda tırnak (‘) koyup deneme yaptığımızda ekranın bir hatadan dolayı değiştiğini görüyoruz. Buradan araya kod sıkıştırabileceğimizi anlıyoruz.  Örnek olarak arka tarafta çalışan sorgu:&lt;/p&gt;

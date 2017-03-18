@@ -6,14 +6,14 @@ title: WEB For Pentester 1 - SQL Injections Bölümü Çözümleri
 
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Web For Pentester</strong> yaygın Web zafiyetlerini bize sunan ve bu zafiyetlerden yararlanmaya çalışarak çözümlere ulaştığımız
-bir test sistemidir. Bu adresten bilgisayarınıza indirebilirsiniz.<a href = "https://www.pentesterlab.com/exercises/web_for_pentester">https://www.pentesterlab.com/exercises/web_for_pentester</a>
+bir test sistemidir. Bu adresten bilgisayarınıza indirebilirsiniz.<a href = "https://www.pentesterlab.com/exercises/web_for_pentester">Bu</a> adresten bilgisayarınıza indirebilirsiniz.
 ISO kalıbı bilgisayarınıza indikten sonra Vmware,Virtual Machine gibi sanal makina sistemlerinden birine kurmanız gerekir. Kurulumdan sonra sanal makinenizdeki sistem de
 
->><strong>>></strong>ifconfig
+>><strong>>>ifconfig</strong>
 
 yazarak gördüğünüz IP adresini Ana makinenizdeki tarayıcınıza yazarak <strong>WFP</strong> sorularına ulaşabilirsiniz.
-Bu yazıda <strong>SQL Injections</strong> Bölümünün çözümlerini anlatmaya çalışacağız.Syntax yapısını sağlamak için gereken  URL encode karakterlerine şurayı ziyaret ederek ulaşabilirsiniz.
-<a href = "https://www.w3schools.com/tags/ref_urlencode.asp">https://www.w3schools.com/tags/urlencode</a>	
+Bu yazıda <strong>SQL Injections</strong> Bölümünün çözümlerini anlatmaya çalışacağız.Syntax yapısını sağlamak için gereken  URL encode karakterlerine de
+<a href = "https://www.w3schools.com/tags/ref_urlencode.asp">şurayı</a>	ziyaret ederek ulaşabilirsiniz.
 
 
 <strong>Example 1</strong><br>
