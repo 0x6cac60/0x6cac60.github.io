@@ -17,7 +17,7 @@ title: "0x6CAC60"
 {% else %}
 {% capture year %}{{ post.date | date: '%Y' }}{% endcapture %}
 {% capture nyear %}{{ post.next.date | date: '%Y' }}{% endcapture %}
-{% if year != nyear %}
+{% if year == nyear %}
 
 {% unless forloop.first %}</div></div>{% endunless %}
 
