@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta information -->
+<meta charset="utf-8">
+<meta name="description" 
+      content="  $mkdir  dizin oluşturma  $rmdir  dizin silme  $ls  dosya ve dizin listeleme  $cd  çalıma dizinin değiştirme  $pwd  ..." >
+<meta name="author" content="7122016">
+
+<!-- Enable responsiveness on mobile devices-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+<!-- title -->
+<title>Temel Linux Komutları &middot; </title>
+
+<!-- icons -->
+<link rel="shortcut icon" href="/public/images/favicon.ico" />
+
+<!-- stylesheets -->
+<link rel="stylesheet" href="/public/css/responsive.gs.12col.css">
+<link rel="stylesheet" href="/public/css/animate.min.css">
+<link rel="stylesheet" href="/public/css/main.css">
+
+<!-- Google fonts -->
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic&subset=latin-ext">
+
+
+
+<!-- feed links -->
+<link rel="alternate" href="http://localhost:4000/feed.xml" type="application/rss+xml" title="">
+
+  </head>
+  <body>
+    <div class="container azul">
+      <header class="top row gutters">
+        <div class="col span_2 center">
+          <!-- TODO: add baseurl to the logo link -->
+          <a href="http://localhost:4000" id="logo" title="7122016"
+             style="background-image: url(/public/images/);"></a>
+        </div>
+        <nav class="col span_10 top-navbar">
+  
+  <a href="/" title="Anasayfa"
+     >Anasayfa</a>
+  
+  <a href="/iletisim.html" title="Hakkında"
+     >Hakkında</a>
+  
+</nav>
+
+      </header>
+      <h2><center>Gönderiler</center></h2>
+      <article class="single row gutters">
+  <time class="published" datetime="2017-03-21">21 March 2017</time>
+  <h2>Temel Linux Komutları</h2>
+
+  <blockquote>
+  <p>$mkdir</p>
+</blockquote>
+
+<ul>
+  <li>dizin oluşturma</li>
+</ul>
+
+<blockquote>
+  <p>$rmdir</p>
+</blockquote>
+
+<ul>
+  <li>dizin silme</li>
+</ul>
+
+<blockquote>
+  <p>$ls</p>
+</blockquote>
+
+<ul>
+  <li>dosya ve dizin listeleme</li>
+</ul>
+
+<blockquote>
+  <p>$cd</p>
+</blockquote>
+
+<ul>
+  <li>çalıma dizinin değiştirme</li>
+</ul>
+
+<blockquote>
+  <p>$pwd</p>
+</blockquote>
+
+<ul>
+  <li>çalışma dizinini görüntüleme</li>
+</ul>
+
+<blockquote>
+  <p>$touch</p>
+</blockquote>
+
+<ul>
+  <li>dosya erişim zamanını güncelleme</li>
+</ul>
+
+<blockquote>
+  <p>$rm</p>
+</blockquote>
+
+<ul>
+  <li>dosya ve dizin silme</li>
+</ul>
+
+<blockquote>
+  <p>$cp</p>
+</blockquote>
+
+<ul>
+  <li>dosya ve dizin kopyalama</li>
+</ul>
+
+<blockquote>
+  <p>$mv</p>
+</blockquote>
+
+<ul>
+  <li>dosya ve dizin taşıma, isim değiştirme</li>
+</ul>
+
+<blockquote>
+  <p>$file</p>
+</blockquote>
+
+<ul>
+  <li>dosya türünü öğrenme</li>
+</ul>
+
+<blockquote>
+  <p>$find</p>
+</blockquote>
+
+<ul>
+  <li>dosya ve dizin arama</li>
+</ul>
+
+<h4 id="Çevrim-İçi-klavuz-sayfaları">Çevrim İçi Klavuz Sayfaları</h4>
+<blockquote>
+  <p>$man <komut_adı></komut_adı></p>
+</blockquote>
+
+<ul>
+  <li>Bir komutun kılavuz sayfasını çağırmak için aşağıdaki komut kullanılabilir.</li>
+</ul>
+
+<blockquote>
+  <p>$man –K directory, man –K board</p>
+</blockquote>
+
+<ul>
+  <li>Kılavuz sayfalarında anahtar kelime aratma</li>
+</ul>
+
+<h4 id="haberleşme-komutları">Haberleşme Komutları</h4>
+
+<blockquote>
+  <p>$wall</p>
+</blockquote>
+
+<ul>
+  <li>Sisteme bağlı tüm kullanıcılara anlık mesaj göndermek için kullanılır.</li>
+</ul>
+
+<blockquote>
+  <p>$mesg</p>
+</blockquote>
+
+<ul>
+  <li>
+    <p>“mesg y” komutu ile mesaj gönderme izni verilir.</p>
+  </li>
+  <li>
+    <p>“mesg n” komutu ile mesaj alımı kapatılabilir.</p>
+  </li>
+</ul>
+
+<blockquote>
+  <p>$write</p>
+</blockquote>
+
+<ul>
+  <li>
+    <p>“write kullanici_adi” komutu ile oturum açmış kullanıcıya mesaj gönderilebilir.</p>
+  </li>
+  <li>
+    <p>“write kullanici_adi” komutu ile sisteme o anda giriş yapmış bulunan kullanıcılara
+mesaj gönderilebilir. Giriş yapmamış kullanıcılara mesaj göndermek için “mail
+kullanici_adi” komutu ile e-posta gönderilebilir.</p>
+  </li>
+  <li>
+    <p>“write kullanici_adi” komutu verildikten sonra iletilmesi istenen mesaj yazılabilir; mesaj
+uygulamasını sonlandırmak için “Ctrl + D” tuş kombinasyonu kullanılabilir.</p>
+  </li>
+</ul>
+
+<h4 id="etcmod">etc/mod</h4>
+
+<p><strong>NOT</strong>: Kullanıcılar oturum açtıklarında görmeleri istenilen duyurular “/etc/motd”
+dosyasına yazılmalıdır. motd (ing. Message Of The Day)</p>
+
+<ul>
+  <li>Kullanıcılar oturum açtıklarında “/etc/motd” dosyası görüntülenir. Duyuru mesajlarını
+bu dosyaya yazarak sisteme giriş yapan herkesin ilgili mesajı görmesini
+sağlayabilirsiniz.</li>
+</ul>
+
+<h1 id="root">root</h1>
+
+<ul>
+  <li>UNIX sisteminizin en yetkili kullanıcısı “0” kullanıcı numarasına sahip olan
+‘root’ tur</li>
+  <li>‘root’ kullanısının UNIX türevi dışındaki işletim sistemlerinde tam bir
+karşılığı yoktur</li>
+  <li>‘root’ dışında, ftp, nobody, mail gibi özel tanımlı kullanıcılar da vardır</li>
+</ul>
+
+<h4 id="grup-ile-ilgili-komutlar">Grup ile ilgili komutlar</h4>
+
+<p>UNIX’te tüm kullanıcılar en az bir kullanıcı grubunun üyesidirler</p>
+<ul>
+  <li>Bilgisayar kaynaklarına grup bazında erişim denetimi de mümkündür</li>
+  <li>Grup bilgileri /etc/group dosyasında tutulur</li>
+  <li>Grup parolaları /etc/gshadow dosyasında tutulur</li>
+</ul>
+
+<blockquote>
+  <p>$groupadd</p>
+</blockquote>
+
+<ul>
+  <li>Yeni bir çalışma gurubu oluşturmak için</li>
+</ul>
+
+<blockquote>
+  <p>$groupdel</p>
+</blockquote>
+
+<ul>
+  <li>Mevcut bir bir çalışma grubu silmek için komutları kullanılır.</li>
+</ul>
+
+<blockquote>
+  <p>$gpasswd</p>
+</blockquote>
+
+<ul>
+  <li>Bir kullanıcıyı belli bir çalışma grubuna eklemek veya çıkarmak için kullanılır.</li>
+</ul>
+
+<blockquote>
+  <p>$who</p>
+</blockquote>
+
+<ul>
+  <li>Sistemde çalışan kullanıcıları, sisteme giriş zamanları ile birlikte listelemektedir.</li>
+</ul>
+
+<blockquote>
+  <p>$w</p>
+</blockquote>
+
+<ul>
+  <li>Sistemde çalışan kullanıcıları ve hangi programları çalıştırdıklarını listelemektedir.</li>
+</ul>
+
+<blockquote>
+  <p>$passwd</p>
+</blockquote>
+
+<ul>
+  <li>
+    <p>Parola değişikliği için kullanılır.</p>
+  </li>
+  <li>
+    <p>Sistemdeki kabuk alternatifleri /etc/shells dosyasında yazılıdır.</p>
+  </li>
+  <li>
+    <p>Kabuk değişikliği için chsh komutu kullanılır.</p>
+  </li>
+</ul>
+
+<blockquote>
+  <p>$finger</p>
+</blockquote>
+
+<ul>
+  <li>Kullanıcı bilgileri arayıp görüntülenebilir.</li>
+</ul>
+
+<blockquote>
+  <p>$chfn</p>
+</blockquote>
+
+<ul>
+  <li>Komutu ile kullanıcı bilgilerini değiştirilebilir.</li>
+</ul>
+
+<blockquote>
+  <p>$su: Bir kullanıcının başka bir kullanıcının kimliğine bürünmesini sağlar.</p>
+</blockquote>
+
+<ul>
+  <li>su (Switch User) – Bir kullanıcının başka bir kullanıcının kimliğine bürünmesini sağlar.
+“-” parametresi kullanılırsa belirtilen kullanıcının başlangıç betiklerinin işletilmesi
+sağlanır, “-” parametresi kullanılmazsa kullanıcının başlangıç betikleri işletilmez. Su
+ile kullanıcı kimliği değiştirildikten sonra exit komutu ile kimlik eski durumuna
+döndürülebilir.</li>
+</ul>
+
+<blockquote>
+  <p>$sudo: Bir kullanıcının başka bir kullanıcının kimliği ile komut işletmesini
+sağlar.</p>
+</blockquote>
+
+<ul>
+  <li>sudo – Bir kullanıcının başka bir kullanıcı kimliği ile bir programı çalıştırmasını sağlar.
+“/etc/sudoers” dosyasındaki yetki tanımlarına uygun olarak kullanıcının programlar
+çalıştırabilmesi sağlanır.</li>
+</ul>
+
+<h3 id="erişim-yetkilerinin-incelenmesi">Erişim yetkilerinin incelenmesi</h3>
+
+<ul>
+  <li>rwx (okuma var, yazma var, çalıştırma var)</li>
+  <li>rw- (okuma var, yazma var, çalıştırma yok)</li>
+  <li>r– (okuma var, yazma yok, çalıştırma yok)</li>
+  <li>— (okuma yok, yazma yok, çalıştırma yok)</li>
+  <li>–x (okuma yok, yazma yok, çalıştırma var)</li>
+</ul>
+
+<h3 id="erişim-yetkilerinin-düzenlenmesi">Erişim Yetkilerinin Düzenlenmesi</h3>
+
+<blockquote>
+  <p>$chmod [ugoa][+ – =][rwxst][, …] dosya/dizin</p>
+</blockquote>
+
+<h4 id="kim">Kim?</h4>
+
+<ul>
+  <li>“g” – grubun (group)</li>
+  <li>“a” – her üçünün de (all)</li>
+  <li>“u” – sahibinin (user)</li>
+  <li>“o” – diğerlerinin (other)
+yetkilerinin düzenlenmesi</li>
+</ul>
+
+<h4 id="İşleç">İşleç</h4>
+
+<ul>
+  <li>“+” – söz konusu yetkinin verilmesi</li>
+  <li>“–” – söz konusu yetkinin verilmemesi</li>
+  <li>“=” – sadece söz konusu yetkinin verilmesi</li>
+</ul>
+
+<h4 id="yetki">Yetki</h4>
+
+<ul>
+  <li>“r” – okuma yetkisi (read)</li>
+  <li>“w” – yazma yetkisi (write)</li>
+  <li>“x” – çalıştırma yetkisi (execute)</li>
+  <li>“s” – sahibi olarak çalıştırma yetkisi (setuid, setgid)</li>
+  <li>“t” – dizine özel yazma yetkisi (sticky)</li>
+</ul>
+
+<h4 id="Örnek">Örnek</h4>
+
+<blockquote>
+  <p>$chmod ugo+x dosya.txt</p>
+  <ul>
+    <li>Sahibine, gruba ve diğerlerine çalıştırma yetkisi verilmektedir. Son erişim yetkileri “rwxr-xr-x” olmaktadır.</li>
+  </ul>
+</blockquote>
+
+<h4 id="yetkilerin-düzenlenmesi-8-tabanı">Yetkilerin düzenlenmesi (8 tabanı)</h4>
+
+<ul>
+  <li>
+    <p>chmod sekiz_tabanında_yetki_sayısı dosya
+“r” = 4, “w” = 2, “x” = 1, “-” = 0</p>
+  </li>
+  <li>
+    <p>Dosyanın erişim yetkilerinin “rw-r—–” olması için yetki sayısının (4+2+0) (4+0+0)
+(0+0+0) = 6 4 0 olması gerekir.</p>
+  </li>
+</ul>
+
+<p>Yani şu şekilde de yazılabilir:</p>
+
+<blockquote>
+  <p>$chmod 640 dosya</p>
+</blockquote>
+
+<h4 id="disklerin-yönetilmesi">Disklerin Yönetilmesi</h4>
+
+<blockquote>
+  <p>$fdisk</p>
+</blockquote>
+
+<blockquote>
+  <p>$gparted</p>
+</blockquote>
+
+<h4 id="dosya-sistemlerinin-bağlanması">Dosya Sistemlerinin Bağlanması</h4>
+
+<blockquote>
+  <p>$mount</p>
+</blockquote>
+
+<ul>
+  <li>Dosya sistemini dizin altına bağlar.</li>
+</ul>
+
+<blockquote>
+  <p>$umount</p>
+</blockquote>
+
+<ul>
+  <li>Bağlı olan dosya sistemini ayırır</li>
+</ul>
+
+<h4 id="disk-kullanım-bilgileri">Disk Kullanım Bilgileri</h4>
+
+<blockquote>
+  <p>$df -k</p>
+</blockquote>
+
+<ul>
+  <li>
+    <p>df(disk free)-Bağlanmış tüm dosya sistemlerinin doluluk bilgilerini göstermektedir.
+Örnekte “-k” seçeneği ile değerlerin KB birimi ile gösterilmesi sağlanmıştır.</p>
+  </li>
+  <li>
+    <p>Dosya sistemlerinin kullanım bilgilerini verir.</p>
+  </li>
+</ul>
+
+<blockquote>
+  <p>$du -ks</p>
+</blockquote>
+
+<ul>
+  <li>
+    <p>du(disk usage)– “-k” seçeneği ile değerlerin KB birimi ile gösterilmesi, “-s” seçeneği
+ile de sadece toplam kullanım bilgisinin gösterilmesi sağlanmıştır.</p>
+  </li>
+  <li>
+    <p>Bir dizinin kullanım bilgilerini verir.</p>
+  </li>
+</ul>
+
+<h4 id="girdi-Çıktı-yönlendirme">Girdi Çıktı Yönlendirme</h4>
+
+<blockquote>
+  <p>$program &gt; dosya</p>
+</blockquote>
+
+<ul>
+  <li>Bir programın çıktısını bir dosyaya yönlendirme .</li>
+</ul>
+
+<blockquote>
+  <p>$program » dosya</p>
+</blockquote>
+
+<ul>
+  <li>Bir program çıktısını mevcut olan bir dosyaya ekleme yaparak
+yönlendirme</li>
+</ul>
+
+<blockquote>
+  <p>$program &lt; dosya</p>
+</blockquote>
+
+<ul>
+  <li>Bir programın standart çıktısını başka bir programa standart girdi olarak
+yönlendirme</li>
+</ul>
+
+<blockquote>
+  <p>$program2 &gt; dosya</p>
+</blockquote>
+
+<ul>
+  <li>Bir programın standart hata çıktısını bir dosyaya yönlendirme</li>
+</ul>
+
+<blockquote>
+  <p>$program &gt; dosya 2&gt;&amp;1</p>
+</blockquote>
+
+<ul>
+  <li>Bir programın standart çıktısını ve standart hata çıktısını tek bir dosyada
+birleştirme</li>
+</ul>
+
+
+</article>
+
+
+      <footer>
+        <p>
+          Tüm hakları <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/deed.en_US">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
+	altında saklıdır.     
+   </p>
+      </footer>
+    </div>
+
+    <!-- scripts -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/public/js/jquery.fitvids.js"></script>
+    <script>
+      $(document).ready(function(){
+        $("article").fitVids();
+      });
+    </script>
+  </body>
+</html>

@@ -6,9 +6,464 @@
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Sun, 19 Mar 2017 19:49:07 +0300</pubDate>
-    <lastBuildDate>Sun, 19 Mar 2017 19:49:07 +0300</lastBuildDate>
+    <pubDate>Tue, 21 Mar 2017 00:34:48 +0300</pubDate>
+    <lastBuildDate>Tue, 21 Mar 2017 00:34:48 +0300</lastBuildDate>
 
+    
+      <item>
+        <title>Temel Linux Komutları</title>
+        <link>http://localhost:4000/basic-linux-komutlari</link>
+        <pubDate>Tue, 21 Mar 2017 00:00:00 +0300</pubDate>
+        <author></author>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;$mkdir&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;dizin oluşturma&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$rmdir&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;dizin silme&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$ls&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;dosya ve dizin listeleme&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$cd&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;çalıma dizinin değiştirme&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$pwd&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;çalışma dizinini görüntüleme&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$touch&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;dosya erişim zamanını güncelleme&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$rm&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;dosya ve dizin silme&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$cp&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;dosya ve dizin kopyalama&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$mv&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;dosya ve dizin taşıma, isim değiştirme&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$file&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;dosya türünü öğrenme&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$find&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;dosya ve dizin arama&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;Çevrim-İçi-klavuz-sayfaları&quot;&gt;Çevrim İçi Klavuz Sayfaları&lt;/h4&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;$man &lt;komut_adı&gt;&lt;/komut_adı&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Bir komutun kılavuz sayfasını çağırmak için aşağıdaki komut kullanılabilir.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$man –K directory, man –K board&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Kılavuz sayfalarında anahtar kelime aratma&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;haberleşme-komutları&quot;&gt;Haberleşme Komutları&lt;/h4&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$wall&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Sisteme bağlı tüm kullanıcılara anlık mesaj göndermek için kullanılır.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$mesg&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;“mesg y” komutu ile mesaj gönderme izni verilir.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;“mesg n” komutu ile mesaj alımı kapatılabilir.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$write&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;“write kullanici_adi” komutu ile oturum açmış kullanıcıya mesaj gönderilebilir.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;“write kullanici_adi” komutu ile sisteme o anda giriş yapmış bulunan kullanıcılara
+mesaj gönderilebilir. Giriş yapmamış kullanıcılara mesaj göndermek için “mail
+kullanici_adi” komutu ile e-posta gönderilebilir.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;“write kullanici_adi” komutu verildikten sonra iletilmesi istenen mesaj yazılabilir; mesaj
+uygulamasını sonlandırmak için “Ctrl + D” tuş kombinasyonu kullanılabilir.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;etcmod&quot;&gt;etc/mod&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;NOT&lt;/strong&gt;: Kullanıcılar oturum açtıklarında görmeleri istenilen duyurular “/etc/motd”
+dosyasına yazılmalıdır. motd (ing. Message Of The Day)&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Kullanıcılar oturum açtıklarında “/etc/motd” dosyası görüntülenir. Duyuru mesajlarını
+bu dosyaya yazarak sisteme giriş yapan herkesin ilgili mesajı görmesini
+sağlayabilirsiniz.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;root&quot;&gt;root&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;UNIX sisteminizin en yetkili kullanıcısı “0” kullanıcı numarasına sahip olan
+‘root’ tur&lt;/li&gt;
+  &lt;li&gt;‘root’ kullanısının UNIX türevi dışındaki işletim sistemlerinde tam bir
+karşılığı yoktur&lt;/li&gt;
+  &lt;li&gt;‘root’ dışında, ftp, nobody, mail gibi özel tanımlı kullanıcılar da vardır&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;grup-ile-ilgili-komutlar&quot;&gt;Grup ile ilgili komutlar&lt;/h4&gt;
+
+&lt;p&gt;UNIX’te tüm kullanıcılar en az bir kullanıcı grubunun üyesidirler&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Bilgisayar kaynaklarına grup bazında erişim denetimi de mümkündür&lt;/li&gt;
+  &lt;li&gt;Grup bilgileri /etc/group dosyasında tutulur&lt;/li&gt;
+  &lt;li&gt;Grup parolaları /etc/gshadow dosyasında tutulur&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$groupadd&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Yeni bir çalışma gurubu oluşturmak için&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$groupdel&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Mevcut bir bir çalışma grubu silmek için komutları kullanılır.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$gpasswd&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Bir kullanıcıyı belli bir çalışma grubuna eklemek veya çıkarmak için kullanılır.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$who&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Sistemde çalışan kullanıcıları, sisteme giriş zamanları ile birlikte listelemektedir.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$w&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Sistemde çalışan kullanıcıları ve hangi programları çalıştırdıklarını listelemektedir.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$passwd&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Parola değişikliği için kullanılır.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Sistemdeki kabuk alternatifleri /etc/shells dosyasında yazılıdır.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Kabuk değişikliği için chsh komutu kullanılır.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$finger&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Kullanıcı bilgileri arayıp görüntülenebilir.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$chfn&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Komutu ile kullanıcı bilgilerini değiştirilebilir.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$su: Bir kullanıcının başka bir kullanıcının kimliğine bürünmesini sağlar.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;su (Switch User) – Bir kullanıcının başka bir kullanıcının kimliğine bürünmesini sağlar.
+“-” parametresi kullanılırsa belirtilen kullanıcının başlangıç betiklerinin işletilmesi
+sağlanır, “-” parametresi kullanılmazsa kullanıcının başlangıç betikleri işletilmez. Su
+ile kullanıcı kimliği değiştirildikten sonra exit komutu ile kimlik eski durumuna
+döndürülebilir.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$sudo: Bir kullanıcının başka bir kullanıcının kimliği ile komut işletmesini
+sağlar.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;sudo – Bir kullanıcının başka bir kullanıcı kimliği ile bir programı çalıştırmasını sağlar.
+“/etc/sudoers” dosyasındaki yetki tanımlarına uygun olarak kullanıcının programlar
+çalıştırabilmesi sağlanır.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;erişim-yetkilerinin-incelenmesi&quot;&gt;Erişim yetkilerinin incelenmesi&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;rwx (okuma var, yazma var, çalıştırma var)&lt;/li&gt;
+  &lt;li&gt;rw- (okuma var, yazma var, çalıştırma yok)&lt;/li&gt;
+  &lt;li&gt;r– (okuma var, yazma yok, çalıştırma yok)&lt;/li&gt;
+  &lt;li&gt;— (okuma yok, yazma yok, çalıştırma yok)&lt;/li&gt;
+  &lt;li&gt;–x (okuma yok, yazma yok, çalıştırma var)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;erişim-yetkilerinin-düzenlenmesi&quot;&gt;Erişim Yetkilerinin Düzenlenmesi&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$chmod [ugoa][+ – =][rwxst][, …] dosya/dizin&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;kim&quot;&gt;Kim?&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;“g” – grubun (group)&lt;/li&gt;
+  &lt;li&gt;“a” – her üçünün de (all)&lt;/li&gt;
+  &lt;li&gt;“u” – sahibinin (user)&lt;/li&gt;
+  &lt;li&gt;“o” – diğerlerinin (other)
+yetkilerinin düzenlenmesi&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;İşleç&quot;&gt;İşleç&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;“+” – söz konusu yetkinin verilmesi&lt;/li&gt;
+  &lt;li&gt;“–” – söz konusu yetkinin verilmemesi&lt;/li&gt;
+  &lt;li&gt;“=” – sadece söz konusu yetkinin verilmesi&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;yetki&quot;&gt;Yetki&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;“r” – okuma yetkisi (read)&lt;/li&gt;
+  &lt;li&gt;“w” – yazma yetkisi (write)&lt;/li&gt;
+  &lt;li&gt;“x” – çalıştırma yetkisi (execute)&lt;/li&gt;
+  &lt;li&gt;“s” – sahibi olarak çalıştırma yetkisi (setuid, setgid)&lt;/li&gt;
+  &lt;li&gt;“t” – dizine özel yazma yetkisi (sticky)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;Örnek&quot;&gt;Örnek&lt;/h4&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$chmod ugo+x dosya.txt&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Sahibine, gruba ve diğerlerine çalıştırma yetkisi verilmektedir. Son erişim yetkileri “rwxr-xr-x” olmaktadır.&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;yetkilerin-düzenlenmesi-8-tabanı&quot;&gt;Yetkilerin düzenlenmesi (8 tabanı)&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;chmod sekiz_tabanında_yetki_sayısı dosya
+“r” = 4, “w” = 2, “x” = 1, “-” = 0&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Dosyanın erişim yetkilerinin “rw-r—–” olması için yetki sayısının (4+2+0) (4+0+0)
+(0+0+0) = 6 4 0 olması gerekir.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Yani şu şekilde de yazılabilir:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$chmod 640 dosya&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;disklerin-yönetilmesi&quot;&gt;Disklerin Yönetilmesi&lt;/h4&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$fdisk&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$gparted&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;dosya-sistemlerinin-bağlanması&quot;&gt;Dosya Sistemlerinin Bağlanması&lt;/h4&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$mount&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Dosya sistemini dizin altına bağlar.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$umount&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Bağlı olan dosya sistemini ayırır&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;disk-kullanım-bilgileri&quot;&gt;Disk Kullanım Bilgileri&lt;/h4&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$df -k&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;df(disk free)-Bağlanmış tüm dosya sistemlerinin doluluk bilgilerini göstermektedir.
+Örnekte “-k” seçeneği ile değerlerin KB birimi ile gösterilmesi sağlanmıştır.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Dosya sistemlerinin kullanım bilgilerini verir.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$du -ks&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;du(disk usage)– “-k” seçeneği ile değerlerin KB birimi ile gösterilmesi, “-s” seçeneği
+ile de sadece toplam kullanım bilgisinin gösterilmesi sağlanmıştır.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Bir dizinin kullanım bilgilerini verir.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;girdi-Çıktı-yönlendirme&quot;&gt;Girdi Çıktı Yönlendirme&lt;/h4&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$program &amp;gt; dosya&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Bir programın çıktısını bir dosyaya yönlendirme .&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$program » dosya&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Bir program çıktısını mevcut olan bir dosyaya ekleme yaparak
+yönlendirme&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$program &amp;lt; dosya&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Bir programın standart çıktısını başka bir programa standart girdi olarak
+yönlendirme&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$program2 &amp;gt; dosya&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Bir programın standart hata çıktısını bir dosyaya yönlendirme&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;$program &amp;gt; dosya 2&amp;gt;&amp;amp;1&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Bir programın standart çıktısını ve standart hata çıktısını tek bir dosyada
+birleştirme&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+      </item>
     
       <item>
         <title>C ile Basit Linux Shell</title>
