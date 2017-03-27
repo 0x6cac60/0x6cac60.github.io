@@ -6,83 +6,81 @@ title: Temel Linux Komutları
 
 
 
->$mkdir 
 
-* dizin oluşturma
+$<strong>mkdir</strong> |dizin oluşturma
 
->$rmdir 
+$<strong>rmdir</strong> |dizin silme
 
-* dizin silme
 
->$ls
 
-* dosya ve dizin listeleme
+$<strong>ls</strong> |dosya ve dizin listeleme
 
->$cd
 
-* çalıma dizinin değiştirme
 
->$pwd
+$<strong>cd</strong> |çalışma dizinin değiştirme
 
-* çalışma dizinini görüntüleme
 
->$touch
 
-* dosya erişim zamanını güncelleme
+$<strong>pwd</strong> |çalışma dizinini görüntüleme
 
->$rm
 
-* dosya ve dizin silme
+$<strong>touch</strong> |dosya erişim zamanını güncelleme
 
->$cp
 
-* dosya ve dizin kopyalama
 
->$mv
+$<strong>rm</strong> |dosya ve dizin silme
 
-* dosya ve dizin taşıma, isim değiştirme
 
->$file
 
-* dosya türünü öğrenme
+$<strong>cp</strong> |dosya ve dizin kopyalama
 
->$find
 
-* dosya ve dizin arama
 
-#### Çevrim İçi Klavuz Sayfaları  
->$man <komut_adı>
+$<strong>mv</strong> |dosya ve dizin taşıma, isim değiştirme
 
-* Bir komutun kılavuz sayfasını çağırmak için aşağıdaki komut kullanılabilir.
 
->$man –K directory, man –K board
 
-* Kılavuz sayfalarında anahtar kelime aratma
+$<strong>file</strong> |dosya türünü öğrenme
 
-#### Haberleşme Komutları 
 
->$wall 
 
-* Sisteme bağlı tüm kullanıcılara anlık mesaj göndermek için kullanılır.
+$<strong>find</strong> |dosya ve dizin arama
 
->$mesg 
+<br>
 
-* “mesg y” komutu ile mesaj gönderme izni verilir.
 
-* “mesg n” komutu ile mesaj alımı kapatılabilir.
+### A. Çevrim İçi Klavuz Sayfaları
+  
+$<strong>man "komut_adı"</strong> | Komutun kılavuz sayfasını çağırma
 
->$write 
 
-* “write kullanici_adi” komutu ile oturum açmış kullanıcıya mesaj gönderilebilir.
 
-* “write kullanici_adi” komutu ile sisteme o anda giriş yapmış bulunan kullanıcılara
+$<strong>man –K directory, man –K board</strong> | Kılavuz sayfalarında anahtar kelime aratma
+
+<br>
+
+### B. Haberleşme Komutları 
+
+$<strong>wall</strong> |Sisteme bağlı tüm kullanıcılara anlık mesaj göndermek için kullanılır.
+
+$<strong>mesg</strong> |“mesg y” komutu ile mesaj gönderme izni verilir. | “mesg n” komutu ile mesaj alımı kapatılabilir
+
+$<strong>write “write kullanici_adi”</strong> |komutu ile oturum açmış kullanıcıya mesaj gönderilebilir
+
+| “$<strong>write kullanici_adi” </strong>
+
+* komutu ile sisteme o anda giriş yapmış bulunan kullanıcılara
 mesaj gönderilebilir. Giriş yapmamış kullanıcılara mesaj göndermek için “mail
 kullanici_adi” komutu ile e-posta gönderilebilir.
 
-* “write kullanici_adi” komutu verildikten sonra iletilmesi istenen mesaj yazılabilir; mesaj
+| “$<strong>write kullanici_adi” </strong>
+
+* komutu verildikten sonra iletilmesi istenen mesaj yazılabilir; mesaj
 uygulamasını sonlandırmak için “Ctrl + D” tuş kombinasyonu kullanılabilir. 
 
-#### etc/mod
+<br>
+
+### C. etc/mod
 
 **NOT**: Kullanıcılar oturum açtıklarında görmeleri istenilen duyurular “/etc/motd”
 dosyasına yazılmalıdır. motd (ing. Message Of The Day)
@@ -91,9 +89,10 @@ dosyasına yazılmalıdır. motd (ing. Message Of The Day)
 bu dosyaya yazarak sisteme giriş yapan herkesin ilgili mesajı görmesini
 sağlayabilirsiniz.
 
+<br>
 
 
-# root
+### D. root
 
 * UNIX sisteminizin en yetkili kullanıcısı “0” kullanıcı numarasına sahip olan
 ‘root’ tur
@@ -101,51 +100,37 @@ sağlayabilirsiniz.
 karşılığı yoktur
 * ‘root’ dışında, ftp, nobody, mail gibi özel tanımlı kullanıcılar da vardır
 
-#### Grup ile ilgili komutlar
+<br>
+
+### E. Grup ile ilgili komutlar
 
 UNIX’te tüm kullanıcılar en az bir kullanıcı grubunun üyesidirler
 * Bilgisayar kaynaklarına grup bazında erişim denetimi de mümkündür
 * Grup bilgileri /etc/group dosyasında tutulur
 * Grup parolaları /etc/gshadow dosyasında tutulur
 
->$groupadd
+$<strong>groupadd</strong> |Yeni bir çalışma gurubu oluşturmak için
 
-* Yeni bir çalışma gurubu oluşturmak için
+$<strong>groupdel</strong> |Mevcut bir bir çalışma grubu silmek için komutları kullanılır.
 
->$groupdel 
+$<strong>gpasswd </strong>|Bir kullanıcıyı belli bir çalışma grubuna eklemek veya çıkarmak için kullanılır.
 
-* Mevcut bir bir çalışma grubu silmek için komutları kullanılır.
+$<strong>who</strong> |Sistemde çalışan kullanıcıları, sisteme giriş zamanları ile birlikte listelemektedir.
 
->$gpasswd
+$<strong>w </strong>|Sistemde çalışan kullanıcıları ve hangi programları çalıştırdıklarını listelemektedir.
 
-* Bir kullanıcıyı belli bir çalışma grubuna eklemek veya çıkarmak için kullanılır.
-
->$who 
-
-* Sistemde çalışan kullanıcıları, sisteme giriş zamanları ile birlikte listelemektedir.
-
->$w 
-
-* Sistemde çalışan kullanıcıları ve hangi programları çalıştırdıklarını listelemektedir.
-
->$passwd 
-
-* Parola değişikliği için kullanılır.
+$<strong>passwd</strong> |Parola değişikliği için kullanılır.
 
 * Sistemdeki kabuk alternatifleri /etc/shells dosyasında yazılıdır.
 
 * Kabuk değişikliği için chsh komutu kullanılır.
 
 
->$finger
+$<strong>finger</strong> |Kullanıcı bilgileri arayıp görüntülenebilir.
 
-* Kullanıcı bilgileri arayıp görüntülenebilir.
+$<strong>chfn</strong> |Komutu ile kullanıcı bilgilerini değiştirilebilir.
 
->$chfn 
-
-* Komutu ile kullanıcı bilgilerini değiştirilebilir.
-
->$su: Bir kullanıcının başka bir kullanıcının kimliğine bürünmesini sağlar.
+$<strong>su</strong> |Bir kullanıcının başka bir kullanıcının kimliğine bürünmesini sağlar.
 
 * su (Switch User) – Bir kullanıcının başka bir kullanıcının kimliğine bürünmesini sağlar.
 “-” parametresi kullanılırsa belirtilen kullanıcının başlangıç betiklerinin işletilmesi
@@ -153,56 +138,60 @@ sağlanır, “-” parametresi kullanılmazsa kullanıcının başlangıç beti
 ile kullanıcı kimliği değiştirildikten sonra exit komutu ile kimlik eski durumuna
 döndürülebilir.
 
->$sudo: Bir kullanıcının başka bir kullanıcının kimliği ile komut işletmesini
-sağlar.
 
-* sudo – Bir kullanıcının başka bir kullanıcı kimliği ile bir programı çalıştırmasını sağlar.
-“/etc/sudoers” dosyasındaki yetki tanımlarına uygun olarak kullanıcının programlar
+$<strong>sudo </strong>|Bir kullanıcının başka bir kullanıcının kimliği ile komut işletmesini sağlar.
+
+$<strong>sudo – </strong> |Bir kullanıcının başka bir kullanıcı kimliği ile bir programı çalıştırmasını sağlar.
+
+* “/etc/sudoers” dosyasındaki yetki tanımlarına uygun olarak kullanıcının programlar
 çalıştırabilmesi sağlanır.
 
-### Erişim yetkilerinin incelenmesi
 
-* rwx (okuma var, yazma var, çalıştırma var)
-* rw- (okuma var, yazma var, çalıştırma yok)
-* r-- (okuma var, yazma yok, çalıştırma yok)
-* --- (okuma yok, yazma yok, çalıştırma yok)
-* --x (okuma yok, yazma yok, çalıştırma var)
+#### Erişim yetkilerinin incelenmesi
 
-### Erişim Yetkilerinin Düzenlenmesi
+rwx |(okuma var, yazma var, çalıştırma var)
+rw- |(okuma var, yazma var, çalıştırma yok)
+r-- |(okuma var, yazma yok, çalıştırma yok)
+--- |(okuma yok, yazma yok, çalıştırma yok)
+--x |(okuma yok, yazma yok, çalıştırma var)
+
+#### Erişim Yetkilerinin Düzenlenmesi
 
 
->$chmod [ugoa][+ – =][rwxst][, ...] dosya/dizin
+|$chmod [ugoa][+ – =][rwxst][, ...] dosya/dizin
 
 #### Kim?
 
-* “g” – grubun (group)
-* “a” – her üçünün de (all)
-* “u” – sahibinin (user)
-* “o” – diğerlerinin (other)
+ “g” – |grubun (group)
+ “a” – |her üçünün de (all)
+ “u” – |sahibinin (user)
+ “o” – |diğerlerinin (other)
+
 yetkilerinin düzenlenmesi
 
 #### İşleç
 
-* “+” – söz konusu yetkinin verilmesi
-* “–” – söz konusu yetkinin verilmemesi
-* “=” – sadece söz konusu yetkinin verilmesi
+ “+” – |söz konusu yetkinin verilmesi
+ “–” – |söz konusu yetkinin verilmemesi
+ “=” – |sadece söz konusu yetkinin verilmesi
 
 #### Yetki
 
-* “r” – okuma yetkisi (read)
-* “w” – yazma yetkisi (write)
-* “x” – çalıştırma yetkisi (execute)
-* “s” – sahibi olarak çalıştırma yetkisi (setuid, setgid)
-* “t” – dizine özel yazma yetkisi (sticky)
+ “r” – |okuma yetkisi (read)
+ “w” – |yazma yetkisi (write)
+ “x” – |çalıştırma yetkisi (execute)
+ “s” – |sahibi olarak çalıştırma yetkisi (setuid, setgid)
+ “t” – |dizine özel yazma yetkisi (sticky)
 
-#### Örnek 
+##### Örnek 
 
->$chmod ugo+x dosya.txt 
+|$<strong>chmod ugo+x dosya.txt </strong>
+
 * Sahibine, gruba ve diğerlerine çalıştırma yetkisi verilmektedir. Son erişim yetkileri “rwxr-xr-x” olmaktadır.
 
 #### Yetkilerin düzenlenmesi (8 tabanı)
 
-* chmod sekiz_tabanında_yetki_sayısı dosya
+chmod sekiz_tabanında_yetki_sayısı dosya
 “r” = 4, “w” = 2, “x” = 1, “-” = 0
 
 * Dosyanın erişim yetkilerinin “rw-r-----” olması için yetki sayısının (4+2+0) (4+0+0)
@@ -210,63 +199,65 @@ yetkilerinin düzenlenmesi
 
 Yani şu şekilde de yazılabilir:
 
->$chmod 640 dosya
+|$<strong>chmod 640 dosya</strong>
 
-#### Disklerin Yönetilmesi
+<br>
 
->$fdisk
+### F. Disklerin Yönetilmesi
 
->$gparted
+|$<strong>fdisk</strong>
 
-#### Dosya Sistemlerinin Bağlanması
+|$<strong>gparted</strong>
 
->$mount 
+<br>
 
-* Dosya sistemini dizin altına bağlar.
+### G. Dosya Sistemlerinin Bağlanması
 
->$umount 
+$<strong>mount</strong> |Dosya sistemini dizin altına bağlar.
 
-* Bağlı olan dosya sistemini ayırır
+$<strong>umount</strong> |Bağlı olan dosya sistemini ayırır
 
-#### Disk Kullanım Bilgileri
+<br>
 
->$df -k
+### H. Disk Kullanım Bilgileri
+
+|$<strong>df -k</strong>
 
 * df(disk free)-Bağlanmış tüm dosya sistemlerinin doluluk bilgilerini göstermektedir.
 Örnekte “-k” seçeneği ile değerlerin KB birimi ile gösterilmesi sağlanmıştır.
 
 * Dosya sistemlerinin kullanım bilgilerini verir.
 
->$du -ks
+|$<strong>du -ks</strong>
 
 * du(disk usage)– “-k” seçeneği ile değerlerin KB birimi ile gösterilmesi, “-s” seçeneği
 ile de sadece toplam kullanım bilgisinin gösterilmesi sağlanmıştır.
 
 * Bir dizinin kullanım bilgilerini verir.
 
-#### Girdi Çıktı Yönlendirme
+<br>
 
->$program > dosya
+### I. Girdi Çıktı Yönlendirme
+
+|$program > dosya 
 
 * Bir programın çıktısını bir dosyaya yönlendirme .
 
->$program >> dosya
-
+|$program >> dosya 
 
 * Bir program çıktısını mevcut olan bir dosyaya ekleme yaparak
 yönlendirme
 
->$program < dosya
-
+|$program < dosya 
 
 * Bir programın standart çıktısını başka bir programa standart girdi olarak
 yönlendirme
 
->$program2 > dosya
+|$program2 > dosya 
 
 * Bir programın standart hata çıktısını bir dosyaya yönlendirme
 
->$program > dosya 2>&1
+|$program > dosya 2>&1 
 
 * Bir programın standart çıktısını ve standart hata çıktısını tek bir dosyada
 birleştirme

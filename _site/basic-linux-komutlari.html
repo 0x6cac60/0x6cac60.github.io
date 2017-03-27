@@ -4,7 +4,7 @@
     <!-- meta information -->
 <meta charset="utf-8">
 <meta name="description" 
-      content="  $mkdir  dizin oluşturma  $rmdir  dizin silme  $ls  dosya ve dizin listeleme  $cd  çalıma dizinin değiştirme  $pwd  ..." >
+      content="            $mkdir      dizin oluşturma                  $rmdir      dizin silme                  $ls      dosya ve d..." >
 <meta name="author" content="7122016">
 
 <!-- Enable responsiveness on mobile devices-->
@@ -54,154 +54,189 @@
   <time class="published" datetime="2017-03-21">21 March 2017</time>
   <h2>Temel Linux Komutları</h2>
 
-  <blockquote>
-  <p>$mkdir</p>
-</blockquote>
+  <table>
+  <tbody>
+    <tr>
+      <td>$<strong>mkdir</strong></td>
+      <td>dizin oluşturma</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>rmdir</strong></td>
+      <td>dizin silme</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>ls</strong></td>
+      <td>dosya ve dizin listeleme</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>cd</strong></td>
+      <td>çalışma dizinin değiştirme</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>pwd</strong></td>
+      <td>çalışma dizinini görüntüleme</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>touch</strong></td>
+      <td>dosya erişim zamanını güncelleme</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>rm</strong></td>
+      <td>dosya ve dizin silme</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>cp</strong></td>
+      <td>dosya ve dizin kopyalama</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>mv</strong></td>
+      <td>dosya ve dizin taşıma, isim değiştirme</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>file</strong></td>
+      <td>dosya türünü öğrenme</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>find</strong></td>
+      <td>dosya ve dizin arama</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br /></p>
+
+<h3 id="a-Çevrim-İçi-klavuz-sayfaları">A. Çevrim İçi Klavuz Sayfaları</h3>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>man “komut_adı”</strong></td>
+      <td>Komutun kılavuz sayfasını çağırma</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>man –K directory, man –K board</strong></td>
+      <td>Kılavuz sayfalarında anahtar kelime aratma</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br /></p>
+
+<h3 id="b-haberleşme-komutları">B. Haberleşme Komutları</h3>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>wall</strong></td>
+      <td>Sisteme bağlı tüm kullanıcılara anlık mesaj göndermek için kullanılır.</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>mesg</strong></td>
+      <td>“mesg y” komutu ile mesaj gönderme izni verilir.</td>
+      <td>“mesg n” komutu ile mesaj alımı kapatılabilir</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>write “write kullanici_adi”</strong></td>
+      <td>komutu ile oturum açmış kullanıcıya mesaj gönderilebilir</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>“$<strong>write kullanici_adi” </strong></td>
+    </tr>
+  </tbody>
+</table>
 
 <ul>
-  <li>dizin oluşturma</li>
-</ul>
-
-<blockquote>
-  <p>$rmdir</p>
-</blockquote>
-
-<ul>
-  <li>dizin silme</li>
-</ul>
-
-<blockquote>
-  <p>$ls</p>
-</blockquote>
-
-<ul>
-  <li>dosya ve dizin listeleme</li>
-</ul>
-
-<blockquote>
-  <p>$cd</p>
-</blockquote>
-
-<ul>
-  <li>çalıma dizinin değiştirme</li>
-</ul>
-
-<blockquote>
-  <p>$pwd</p>
-</blockquote>
-
-<ul>
-  <li>çalışma dizinini görüntüleme</li>
-</ul>
-
-<blockquote>
-  <p>$touch</p>
-</blockquote>
-
-<ul>
-  <li>dosya erişim zamanını güncelleme</li>
-</ul>
-
-<blockquote>
-  <p>$rm</p>
-</blockquote>
-
-<ul>
-  <li>dosya ve dizin silme</li>
-</ul>
-
-<blockquote>
-  <p>$cp</p>
-</blockquote>
-
-<ul>
-  <li>dosya ve dizin kopyalama</li>
-</ul>
-
-<blockquote>
-  <p>$mv</p>
-</blockquote>
-
-<ul>
-  <li>dosya ve dizin taşıma, isim değiştirme</li>
-</ul>
-
-<blockquote>
-  <p>$file</p>
-</blockquote>
-
-<ul>
-  <li>dosya türünü öğrenme</li>
-</ul>
-
-<blockquote>
-  <p>$find</p>
-</blockquote>
-
-<ul>
-  <li>dosya ve dizin arama</li>
-</ul>
-
-<h4 id="Çevrim-İçi-klavuz-sayfaları">Çevrim İçi Klavuz Sayfaları</h4>
-<blockquote>
-  <p>$man <komut_adı></komut_adı></p>
-</blockquote>
-
-<ul>
-  <li>Bir komutun kılavuz sayfasını çağırmak için aşağıdaki komut kullanılabilir.</li>
-</ul>
-
-<blockquote>
-  <p>$man –K directory, man –K board</p>
-</blockquote>
-
-<ul>
-  <li>Kılavuz sayfalarında anahtar kelime aratma</li>
-</ul>
-
-<h4 id="haberleşme-komutları">Haberleşme Komutları</h4>
-
-<blockquote>
-  <p>$wall</p>
-</blockquote>
-
-<ul>
-  <li>Sisteme bağlı tüm kullanıcılara anlık mesaj göndermek için kullanılır.</li>
-</ul>
-
-<blockquote>
-  <p>$mesg</p>
-</blockquote>
-
-<ul>
-  <li>
-    <p>“mesg y” komutu ile mesaj gönderme izni verilir.</p>
-  </li>
-  <li>
-    <p>“mesg n” komutu ile mesaj alımı kapatılabilir.</p>
-  </li>
-</ul>
-
-<blockquote>
-  <p>$write</p>
-</blockquote>
-
-<ul>
-  <li>
-    <p>“write kullanici_adi” komutu ile oturum açmış kullanıcıya mesaj gönderilebilir.</p>
-  </li>
-  <li>
-    <p>“write kullanici_adi” komutu ile sisteme o anda giriş yapmış bulunan kullanıcılara
+  <li>komutu ile sisteme o anda giriş yapmış bulunan kullanıcılara
 mesaj gönderilebilir. Giriş yapmamış kullanıcılara mesaj göndermek için “mail
-kullanici_adi” komutu ile e-posta gönderilebilir.</p>
-  </li>
-  <li>
-    <p>“write kullanici_adi” komutu verildikten sonra iletilmesi istenen mesaj yazılabilir; mesaj
-uygulamasını sonlandırmak için “Ctrl + D” tuş kombinasyonu kullanılabilir.</p>
-  </li>
+kullanici_adi” komutu ile e-posta gönderilebilir.</li>
 </ul>
 
-<h4 id="etcmod">etc/mod</h4>
+<table>
+  <tbody>
+    <tr>
+      <td>“$<strong>write kullanici_adi” </strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>komutu verildikten sonra iletilmesi istenen mesaj yazılabilir; mesaj
+uygulamasını sonlandırmak için “Ctrl + D” tuş kombinasyonu kullanılabilir.</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="c-etcmod">C. etc/mod</h3>
 
 <p><strong>NOT</strong>: Kullanıcılar oturum açtıklarında görmeleri istenilen duyurular “/etc/motd”
 dosyasına yazılmalıdır. motd (ing. Message Of The Day)</p>
@@ -212,7 +247,9 @@ bu dosyaya yazarak sisteme giriş yapan herkesin ilgili mesajı görmesini
 sağlayabilirsiniz.</li>
 </ul>
 
-<h1 id="root">root</h1>
+<p><br /></p>
+
+<h3 id="d-root">D. root</h3>
 
 <ul>
   <li>UNIX sisteminizin en yetkili kullanıcısı “0” kullanıcı numarasına sahip olan
@@ -222,7 +259,9 @@ karşılığı yoktur</li>
   <li>‘root’ dışında, ftp, nobody, mail gibi özel tanımlı kullanıcılar da vardır</li>
 </ul>
 
-<h4 id="grup-ile-ilgili-komutlar">Grup ile ilgili komutlar</h4>
+<p><br /></p>
+
+<h3 id="e-grup-ile-ilgili-komutlar">E. Grup ile ilgili komutlar</h3>
 
 <p>UNIX’te tüm kullanıcılar en az bir kullanıcı grubunun üyesidirler</p>
 <ul>
@@ -231,54 +270,61 @@ karşılığı yoktur</li>
   <li>Grup parolaları /etc/gshadow dosyasında tutulur</li>
 </ul>
 
-<blockquote>
-  <p>$groupadd</p>
-</blockquote>
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>groupadd</strong></td>
+      <td>Yeni bir çalışma gurubu oluşturmak için</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>groupdel</strong></td>
+      <td>Mevcut bir bir çalışma grubu silmek için komutları kullanılır.</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>gpasswd </strong></td>
+      <td>Bir kullanıcıyı belli bir çalışma grubuna eklemek veya çıkarmak için kullanılır.</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>who</strong></td>
+      <td>Sistemde çalışan kullanıcıları, sisteme giriş zamanları ile birlikte listelemektedir.</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>w </strong></td>
+      <td>Sistemde çalışan kullanıcıları ve hangi programları çalıştırdıklarını listelemektedir.</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>passwd</strong></td>
+      <td>Parola değişikliği için kullanılır.</td>
+    </tr>
+  </tbody>
+</table>
 
 <ul>
-  <li>Yeni bir çalışma gurubu oluşturmak için</li>
-</ul>
-
-<blockquote>
-  <p>$groupdel</p>
-</blockquote>
-
-<ul>
-  <li>Mevcut bir bir çalışma grubu silmek için komutları kullanılır.</li>
-</ul>
-
-<blockquote>
-  <p>$gpasswd</p>
-</blockquote>
-
-<ul>
-  <li>Bir kullanıcıyı belli bir çalışma grubuna eklemek veya çıkarmak için kullanılır.</li>
-</ul>
-
-<blockquote>
-  <p>$who</p>
-</blockquote>
-
-<ul>
-  <li>Sistemde çalışan kullanıcıları, sisteme giriş zamanları ile birlikte listelemektedir.</li>
-</ul>
-
-<blockquote>
-  <p>$w</p>
-</blockquote>
-
-<ul>
-  <li>Sistemde çalışan kullanıcıları ve hangi programları çalıştırdıklarını listelemektedir.</li>
-</ul>
-
-<blockquote>
-  <p>$passwd</p>
-</blockquote>
-
-<ul>
-  <li>
-    <p>Parola değişikliği için kullanılır.</p>
-  </li>
   <li>
     <p>Sistemdeki kabuk alternatifleri /etc/shells dosyasında yazılıdır.</p>
   </li>
@@ -287,25 +333,32 @@ karşılığı yoktur</li>
   </li>
 </ul>
 
-<blockquote>
-  <p>$finger</p>
-</blockquote>
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>finger</strong></td>
+      <td>Kullanıcı bilgileri arayıp görüntülenebilir.</td>
+    </tr>
+  </tbody>
+</table>
 
-<ul>
-  <li>Kullanıcı bilgileri arayıp görüntülenebilir.</li>
-</ul>
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>chfn</strong></td>
+      <td>Komutu ile kullanıcı bilgilerini değiştirilebilir.</td>
+    </tr>
+  </tbody>
+</table>
 
-<blockquote>
-  <p>$chfn</p>
-</blockquote>
-
-<ul>
-  <li>Komutu ile kullanıcı bilgilerini değiştirilebilir.</li>
-</ul>
-
-<blockquote>
-  <p>$su: Bir kullanıcının başka bir kullanıcının kimliğine bürünmesini sağlar.</p>
-</blockquote>
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>su</strong></td>
+      <td>Bir kullanıcının başka bir kullanıcının kimliğine bürünmesini sağlar.</td>
+    </tr>
+  </tbody>
+</table>
 
 <ul>
   <li>su (Switch User) – Bir kullanıcının başka bir kullanıcının kimliğine bürünmesini sağlar.
@@ -315,122 +368,224 @@ ile kullanıcı kimliği değiştirildikten sonra exit komutu ile kimlik eski du
 döndürülebilir.</li>
 </ul>
 
-<blockquote>
-  <p>$sudo: Bir kullanıcının başka bir kullanıcının kimliği ile komut işletmesini
-sağlar.</p>
-</blockquote>
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>sudo </strong></td>
+      <td>Bir kullanıcının başka bir kullanıcının kimliği ile komut işletmesini sağlar.</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>sudo – </strong></td>
+      <td>Bir kullanıcının başka bir kullanıcı kimliği ile bir programı çalıştırmasını sağlar.</td>
+    </tr>
+  </tbody>
+</table>
 
 <ul>
-  <li>sudo – Bir kullanıcının başka bir kullanıcı kimliği ile bir programı çalıştırmasını sağlar.
-“/etc/sudoers” dosyasındaki yetki tanımlarına uygun olarak kullanıcının programlar
+  <li>“/etc/sudoers” dosyasındaki yetki tanımlarına uygun olarak kullanıcının programlar
 çalıştırabilmesi sağlanır.</li>
 </ul>
 
-<h3 id="erişim-yetkilerinin-incelenmesi">Erişim yetkilerinin incelenmesi</h3>
+<h4 id="erişim-yetkilerinin-incelenmesi">Erişim yetkilerinin incelenmesi</h4>
 
-<ul>
-  <li>rwx (okuma var, yazma var, çalıştırma var)</li>
-  <li>rw- (okuma var, yazma var, çalıştırma yok)</li>
-  <li>r– (okuma var, yazma yok, çalıştırma yok)</li>
-  <li>— (okuma yok, yazma yok, çalıştırma yok)</li>
-  <li>–x (okuma yok, yazma yok, çalıştırma var)</li>
-</ul>
+<table>
+  <tbody>
+    <tr>
+      <td>rwx</td>
+      <td>(okuma var, yazma var, çalıştırma var)</td>
+    </tr>
+    <tr>
+      <td>rw-</td>
+      <td>(okuma var, yazma var, çalıştırma yok)</td>
+    </tr>
+    <tr>
+      <td>r–</td>
+      <td>(okuma var, yazma yok, çalıştırma yok)</td>
+    </tr>
+    <tr>
+      <td>—</td>
+      <td>(okuma yok, yazma yok, çalıştırma yok)</td>
+    </tr>
+    <tr>
+      <td>–x</td>
+      <td>(okuma yok, yazma yok, çalıştırma var)</td>
+    </tr>
+  </tbody>
+</table>
 
-<h3 id="erişim-yetkilerinin-düzenlenmesi">Erişim Yetkilerinin Düzenlenmesi</h3>
+<h4 id="erişim-yetkilerinin-düzenlenmesi">Erişim Yetkilerinin Düzenlenmesi</h4>
 
-<blockquote>
-  <p>$chmod [ugoa][+ – =][rwxst][, …] dosya/dizin</p>
-</blockquote>
+<table>
+  <tbody>
+    <tr>
+      <td>$chmod [ugoa][+ – =][rwxst][, …] dosya/dizin</td>
+    </tr>
+  </tbody>
+</table>
 
 <h4 id="kim">Kim?</h4>
 
-<ul>
-  <li>“g” – grubun (group)</li>
-  <li>“a” – her üçünün de (all)</li>
-  <li>“u” – sahibinin (user)</li>
-  <li>“o” – diğerlerinin (other)
-yetkilerinin düzenlenmesi</li>
-</ul>
+<table>
+  <tbody>
+    <tr>
+      <td>“g” –</td>
+      <td>grubun (group)</td>
+    </tr>
+    <tr>
+      <td>“a” –</td>
+      <td>her üçünün de (all)</td>
+    </tr>
+    <tr>
+      <td>“u” –</td>
+      <td>sahibinin (user)</td>
+    </tr>
+    <tr>
+      <td>“o” –</td>
+      <td>diğerlerinin (other)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>yetkilerinin düzenlenmesi</p>
 
 <h4 id="İşleç">İşleç</h4>
 
-<ul>
-  <li>“+” – söz konusu yetkinin verilmesi</li>
-  <li>“–” – söz konusu yetkinin verilmemesi</li>
-  <li>“=” – sadece söz konusu yetkinin verilmesi</li>
-</ul>
+<table>
+  <tbody>
+    <tr>
+      <td>“+” –</td>
+      <td>söz konusu yetkinin verilmesi</td>
+    </tr>
+    <tr>
+      <td>“–” –</td>
+      <td>söz konusu yetkinin verilmemesi</td>
+    </tr>
+    <tr>
+      <td>“=” –</td>
+      <td>sadece söz konusu yetkinin verilmesi</td>
+    </tr>
+  </tbody>
+</table>
 
 <h4 id="yetki">Yetki</h4>
 
+<table>
+  <tbody>
+    <tr>
+      <td>“r” –</td>
+      <td>okuma yetkisi (read)</td>
+    </tr>
+    <tr>
+      <td>“w” –</td>
+      <td>yazma yetkisi (write)</td>
+    </tr>
+    <tr>
+      <td>“x” –</td>
+      <td>çalıştırma yetkisi (execute)</td>
+    </tr>
+    <tr>
+      <td>“s” –</td>
+      <td>sahibi olarak çalıştırma yetkisi (setuid, setgid)</td>
+    </tr>
+    <tr>
+      <td>“t” –</td>
+      <td>dizine özel yazma yetkisi (sticky)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="Örnek">Örnek</h5>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>chmod ugo+x dosya.txt </strong></td>
+    </tr>
+  </tbody>
+</table>
+
 <ul>
-  <li>“r” – okuma yetkisi (read)</li>
-  <li>“w” – yazma yetkisi (write)</li>
-  <li>“x” – çalıştırma yetkisi (execute)</li>
-  <li>“s” – sahibi olarak çalıştırma yetkisi (setuid, setgid)</li>
-  <li>“t” – dizine özel yazma yetkisi (sticky)</li>
+  <li>Sahibine, gruba ve diğerlerine çalıştırma yetkisi verilmektedir. Son erişim yetkileri “rwxr-xr-x” olmaktadır.</li>
 </ul>
-
-<h4 id="Örnek">Örnek</h4>
-
-<blockquote>
-  <p>$chmod ugo+x dosya.txt</p>
-  <ul>
-    <li>Sahibine, gruba ve diğerlerine çalıştırma yetkisi verilmektedir. Son erişim yetkileri “rwxr-xr-x” olmaktadır.</li>
-  </ul>
-</blockquote>
 
 <h4 id="yetkilerin-düzenlenmesi-8-tabanı">Yetkilerin düzenlenmesi (8 tabanı)</h4>
 
-<ul>
-  <li>
-    <p>chmod sekiz_tabanında_yetki_sayısı dosya
+<p>chmod sekiz_tabanında_yetki_sayısı dosya
 “r” = 4, “w” = 2, “x” = 1, “-” = 0</p>
-  </li>
-  <li>
-    <p>Dosyanın erişim yetkilerinin “rw-r—–” olması için yetki sayısının (4+2+0) (4+0+0)
-(0+0+0) = 6 4 0 olması gerekir.</p>
-  </li>
+
+<ul>
+  <li>Dosyanın erişim yetkilerinin “rw-r—–” olması için yetki sayısının (4+2+0) (4+0+0)
+(0+0+0) = 6 4 0 olması gerekir.</li>
 </ul>
 
 <p>Yani şu şekilde de yazılabilir:</p>
 
-<blockquote>
-  <p>$chmod 640 dosya</p>
-</blockquote>
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>chmod 640 dosya</strong></td>
+    </tr>
+  </tbody>
+</table>
 
-<h4 id="disklerin-yönetilmesi">Disklerin Yönetilmesi</h4>
+<p><br /></p>
 
-<blockquote>
-  <p>$fdisk</p>
-</blockquote>
+<h3 id="f-disklerin-yönetilmesi">F. Disklerin Yönetilmesi</h3>
 
-<blockquote>
-  <p>$gparted</p>
-</blockquote>
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>fdisk</strong></td>
+    </tr>
+  </tbody>
+</table>
 
-<h4 id="dosya-sistemlerinin-bağlanması">Dosya Sistemlerinin Bağlanması</h4>
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>gparted</strong></td>
+    </tr>
+  </tbody>
+</table>
 
-<blockquote>
-  <p>$mount</p>
-</blockquote>
+<p><br /></p>
 
-<ul>
-  <li>Dosya sistemini dizin altına bağlar.</li>
-</ul>
+<h3 id="g-dosya-sistemlerinin-bağlanması">G. Dosya Sistemlerinin Bağlanması</h3>
 
-<blockquote>
-  <p>$umount</p>
-</blockquote>
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>mount</strong></td>
+      <td>Dosya sistemini dizin altına bağlar.</td>
+    </tr>
+  </tbody>
+</table>
 
-<ul>
-  <li>Bağlı olan dosya sistemini ayırır</li>
-</ul>
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>umount</strong></td>
+      <td>Bağlı olan dosya sistemini ayırır</td>
+    </tr>
+  </tbody>
+</table>
 
-<h4 id="disk-kullanım-bilgileri">Disk Kullanım Bilgileri</h4>
+<p><br /></p>
 
-<blockquote>
-  <p>$df -k</p>
-</blockquote>
+<h3 id="h-disk-kullanım-bilgileri">H. Disk Kullanım Bilgileri</h3>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>df -k</strong></td>
+    </tr>
+  </tbody>
+</table>
 
 <ul>
   <li>
@@ -442,9 +597,13 @@ yetkilerinin düzenlenmesi</li>
   </li>
 </ul>
 
-<blockquote>
-  <p>$du -ks</p>
-</blockquote>
+<table>
+  <tbody>
+    <tr>
+      <td>$<strong>du -ks</strong></td>
+    </tr>
+  </tbody>
+</table>
 
 <ul>
   <li>
@@ -456,45 +615,67 @@ ile de sadece toplam kullanım bilgisinin gösterilmesi sağlanmıştır.</p>
   </li>
 </ul>
 
-<h4 id="girdi-Çıktı-yönlendirme">Girdi Çıktı Yönlendirme</h4>
+<p><br /></p>
 
-<blockquote>
-  <p>$program &gt; dosya</p>
-</blockquote>
+<h3 id="i-girdi-Çıktı-yönlendirme">I. Girdi Çıktı Yönlendirme</h3>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$program &gt; dosya</td>
+    </tr>
+  </tbody>
+</table>
 
 <ul>
   <li>Bir programın çıktısını bir dosyaya yönlendirme .</li>
 </ul>
 
-<blockquote>
-  <p>$program » dosya</p>
-</blockquote>
+<table>
+  <tbody>
+    <tr>
+      <td>$program » dosya</td>
+    </tr>
+  </tbody>
+</table>
 
 <ul>
   <li>Bir program çıktısını mevcut olan bir dosyaya ekleme yaparak
 yönlendirme</li>
 </ul>
 
-<blockquote>
-  <p>$program &lt; dosya</p>
-</blockquote>
+<table>
+  <tbody>
+    <tr>
+      <td>$program &lt; dosya</td>
+    </tr>
+  </tbody>
+</table>
 
 <ul>
   <li>Bir programın standart çıktısını başka bir programa standart girdi olarak
 yönlendirme</li>
 </ul>
 
-<blockquote>
-  <p>$program2 &gt; dosya</p>
-</blockquote>
+<table>
+  <tbody>
+    <tr>
+      <td>$program2 &gt; dosya</td>
+    </tr>
+  </tbody>
+</table>
 
 <ul>
   <li>Bir programın standart hata çıktısını bir dosyaya yönlendirme</li>
 </ul>
 
-<blockquote>
-  <p>$program &gt; dosya 2&gt;&amp;1</p>
-</blockquote>
+<table>
+  <tbody>
+    <tr>
+      <td>$program &gt; dosya 2&gt;&amp;1</td>
+    </tr>
+  </tbody>
+</table>
 
 <ul>
   <li>Bir programın standart çıktısını ve standart hata çıktısını tek bir dosyada
