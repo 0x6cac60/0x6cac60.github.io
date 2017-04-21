@@ -6,9 +6,218 @@
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Tue, 18 Apr 2017 13:53:20 +0300</pubDate>
-    <lastBuildDate>Tue, 18 Apr 2017 13:53:20 +0300</lastBuildDate>
+    <pubDate>Fri, 21 Apr 2017 20:35:30 +0300</pubDate>
+    <lastBuildDate>Fri, 21 Apr 2017 20:35:30 +0300</lastBuildDate>
 
+    
+      <item>
+        <title>Thread-MultiThreading Örneği (C)</title>
+        <link>http://localhost:4000/multi-threads-example</link>
+        <pubDate>Fri, 21 Apr 2017 00:00:00 +0300</pubDate>
+        <author></author>
+        <description>&lt;h4&gt;Thread nedir ?&lt;/h4&gt;
+
+&lt;p&gt;      Sistemimizde çalışan her programa process(&lt;strong&gt;süreç&lt;/strong&gt;) denir. Bu process’ler
+de kendi içerisinde dallanıp &lt;strong&gt;alt süreçler&lt;/strong&gt;i oluşturabilir. Bu alt süreçler aynı anda çalışabilir ve aynı kaynakları kullanabilir. Eş zamanlı çalışmaya yardımcı olan ve aynı process’in işlerini yürüten bu süreçlere &lt;strong&gt;Thread&lt;/strong&gt; denir.&lt;/p&gt;
+
+&lt;p&gt;      Bu yazımızda &lt;strong&gt;C&lt;/strong&gt; programlama diliyle yazdığımız bir &lt;strong&gt;thread&lt;/strong&gt; örneğini inceleyeceğiz. Programımız
+temel işlev olarak herhangi bir text dosyası içerisinde istenen kelimenin olup olmadığını
+kontrol ediyor ve buna göre bir sonuç dönüyor. Fonksiyonumuz normalde tek bir dosya içerisinde arama 
+yapacakken thread kullanarak birden fazla dosya için arama mekanizması oluşturduk. Oluşacak thread
+sayımızı , okunacak dosya sayısı kadar belirliyoruz ve oluşturduğumuz fonksiyonu bu threadlerle
+bağlıyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pthread_create(&amp;amp;tid[sayac], NULL, &amp;amp;arama, (void *)kelime);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;      Bu Kodu yazarak threadi oluşturup fonksiyon ile ilişkilendiriyoruz. Bundan sonra thread oluştukça bu
+fonksiyona gidecek. Fonksiyona gidiyor ve yanında parametre olarak aldığı &lt;strong&gt;aranan kelimeyi&lt;/strong&gt; de götürüyor. &lt;strong&gt;input_sayisi&lt;/strong&gt; değişkeni okunan dosya sayisini temsil ediyor. İlk başta değeri ‘&lt;strong&gt;0&lt;/strong&gt;’
+olduğu için önce belirlediğimiz text dosyalarından birincisine gidiyor. Burada string kütüphanesi 
+fonksiyonlarından  ‘&lt;strong&gt;strstr&lt;/strong&gt;’ kullandık ve  bu sayede arama işlemini gerçekleştirdik.  Burada tuttuğumuz
+&lt;strong&gt;kontrol&lt;/strong&gt; değişkeni ,aranan kelimenin bulunma durumunu simgeliyor. Eğer aradığımız kelime içeride 
+varsa bu değişkeni &lt;strong&gt;1&lt;/strong&gt;, yoksa &lt;strong&gt;2&lt;/strong&gt; yapıyoruz. Bu sayede ana fonksiyon üzerinde bu kontrolden yola çıkarak
+sonucu göstereceğiz. Burada okunan dosya sayısını da &lt;strong&gt;dosya_sayisi&lt;/strong&gt; değişkeni ile tutuyoruz , bunu da 
+input dosyalarımızı isimlendirirken kullanacağız. Programımız bu işlemleri oluşturulacak thread 
+sayisi, yani dosya sayisi kadar tekrarlayacaktır.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/thread/compile.png&quot; /&gt;
+&lt;img src=&quot;/img/thread/result.png&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#include&amp;lt;pthread.h&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+#include&amp;lt;string.h&amp;gt;
+#include&amp;lt;stdlib.h&amp;gt;
+#include&amp;lt;unistd.h&amp;gt;
+
+void* arama();
+int kontrol;
+int dosya_sayisi;
+
+int main()
+{
+
+system(&quot;clear&quot;);
+char kelime[100];
+int sayac=0;
+int thread_sayisi;
+int thread;
+
+printf(&quot;File #? &quot;);
+scanf(&quot;%d&quot;,&amp;amp;thread_sayisi);
+
+thread_sayisi=thread_sayisi+1;
+pthread_t tid[thread_sayisi];
+
+printf(&quot;Word? &quot;);
+scanf(&quot;%s&quot;,kelime);
+
+while(sayac&amp;lt;thread_sayisi)
+{
+
+thread = pthread_create(&amp;amp;tid[sayac], NULL, &amp;amp;arama, (void *)kelime);
+
+if (thread != 0)
+{
+
+printf(&quot;\nThread olusturulamadi  :[%s]&quot;, strerror(thread));
+}
+
+else
+{
+//	  printf(&quot;\n %d Thread oluştu...\n&quot;,&amp;amp;tid[count]);
+
+if(kontrol==1)
+{
+printf(&quot;inputThread%d.txt -&amp;gt; &quot;,dosya_sayisi);
+printf(&quot;true\n&quot;);
+
+}
+
+if(kontrol==2)
+{
+printf(&quot;inputThread%d.txt -&amp;gt; &quot;,dosya_sayisi);
+printf(&quot;false\n&quot;);
+
+}
+
+
+}
+
+pthread_join(tid[sayac],NULL);
+sayac++;
+
+
+}
+
+sleep(5);
+return 0;
+
+
+
+
+}
+
+int input_sayisi = 0;
+char *fname1 = &quot;inputThread1.txt&quot;;
+char *fname2 = &quot;inputThread2.txt&quot;;
+char *fname3 = &quot;inputThread3.txt&quot;;
+char *fname4 = &quot;inputThread4.txt&quot;;
+char *fname5 = &quot;inputThread5.txt&quot;;
+
+
+void *arama(char *kelime) 
+{
+
+
+
+
+FILE *fp;
+
+int find_result = 0;
+
+char temp[512];
+
+
+
+
+if(input_sayisi==0 &amp;amp;&amp;amp;(fp = fopen(fname1, &quot;r&quot;)) == NULL) {
+
+return 0;
+
+}
+
+if(input_sayisi==1 &amp;amp;&amp;amp;(fp = fopen(fname2, &quot;r&quot;)) == NULL) {
+
+return 0;
+
+}
+
+if(input_sayisi==2 &amp;amp;&amp;amp;(fp = fopen(fname3, &quot;r&quot;)) == NULL) {
+
+return 0;
+
+}
+
+if(input_sayisi==3 &amp;amp;&amp;amp;(fp = fopen(fname4, &quot;r&quot;)) == NULL) {
+
+return 0;
+
+}
+
+if(input_sayisi==4 &amp;amp;&amp;amp;(fp = fopen(fname5, &quot;r&quot;)) == NULL) {
+
+return 0;
+
+}
+
+if(input_sayisi==5)
+
+{
+
+return ;
+
+}
+
+input_sayisi++;
+
+
+
+while(fgets(temp, 512, fp) != NULL) {
+
+if((strstr(temp, kelime)) != NULL) {
+
+find_result++;
+kontrol =1 ;
+dosya_sayisi++;
+
+}
+
+
+}
+
+
+if(find_result == 0) {
+
+kontrol = 2;
+dosya_sayisi++;
+}
+
+
+if(fp) {
+
+fclose(fp);
+
+}
+
+
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+</description>
+      </item>
     
       <item>
         <title>Exploitation'a Giriş (Uygulama)</title>
