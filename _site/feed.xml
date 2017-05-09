@@ -6,9 +6,230 @@
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Wed, 26 Apr 2017 13:42:20 +0300</pubDate>
-    <lastBuildDate>Wed, 26 Apr 2017 13:42:20 +0300</lastBuildDate>
+    <pubDate>Tue, 09 May 2017 19:17:14 +0300</pubDate>
+    <lastBuildDate>Tue, 09 May 2017 19:17:14 +0300</lastBuildDate>
 
+    
+      <item>
+        <title>Volatility</title>
+        <link>http://localhost:4000/volatility</link>
+        <pubDate>Tue, 09 May 2017 00:00:00 +0300</pubDate>
+        <author></author>
+        <description>&lt;h4&gt;Ram Capturing&lt;/h4&gt;
+
+&lt;p&gt;      Windows 7 makine de memory(RAM) dump etmek için &lt;strong&gt;DumpIt&lt;/strong&gt; aracını kullanacağız. 
+Aracı &lt;a href=&quot;https://www.downloadcrew.com/article/23854-dumpit&quot;&gt;buradan&lt;/a&gt; indirebiliriz.
+Windows7 makinede cmd açarak bulunduğu dizine gelip DumpIt.exe’yi çalıştırıyoruz. Memory
+Dump işlemi başlıyor ve belli bir süre sonra kapatıp durduruyoruz. DumpIt.exe’nin bulunduğu dizinde
+oluşan &lt;strong&gt;RAW&lt;/strong&gt; dosyasını görüyoruz ve bu bizim Volatility ile inceleyeceğimiz &lt;strong&gt;Memory Dump File&lt;/strong&gt;‘mız olacak.&lt;/p&gt;
+
+&lt;h4&gt;Volatility Analiz&lt;/h4&gt;
+
+&lt;p&gt;      İlk olarak volatility ile RAW bilgilerine bakmak için şu komutu kullanıyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;volatility -f ZAFIYETLI-PC.raw imageinfo
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/volatility/imageinfo.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      Sonrasında profile göre &lt;strong&gt;KDBGSCAN&lt;/strong&gt; yapıyoruz. Kdbgscan Olası KDBG değerlerini bulmamızı sağlar.
+KDBG, hata ayıklama amacıyla Windows çekirdeği tarafından tutulan bir yapıdır. 
+Çalışmakta olan süreçlerin ve yüklenen çekirdek modüllerinin bir listesini içerir. 
+Ayrıca hangi Hizmet Paketi’nin yüklendiğini ve bellek modelini (32-bit vs 64-bit) 
+belirleyebilmenizi sağlayan bazı sürüm bilgilerini de içerir.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;volatility -f ZAFIYETLI-PC.raw --profile=Win7SP1x64 kdbgscan
+volatility -f ZAFIYETLI-PC.raw --profile=Win7SP1x64 --kdbg=0xf80001a570a0 pslist
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/volatility/kdbgscan.png&quot; /&gt;
+&lt;img src=&quot;/img/volatility/pslist1.png&quot; /&gt;
+&lt;img src=&quot;/img/volatility/pslist2.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      KDBG değerinide belirledikten sonra o anda çalışan processleri görüntülemek için &lt;strong&gt;PSLIST&lt;/strong&gt; komutunu
+ekledik. Burada en altta &lt;strong&gt;DumpIt.exe&lt;/strong&gt; görünüyor o an kullandığımız DUMP aracı olarak. Bunun yanında 
+tarayıcılar veya diğer çeşitli programları görüyoruz.&lt;/p&gt;
+
+&lt;p&gt;      32 ve 64 bit Windows Vista, Windows 2008 Server ve Windows 7 RAM imajlarında ağ programlarını
+taramak için &lt;strong&gt;NETSCAN&lt;/strong&gt; komutunu kullanırız. Bu tarama, TCP bitiş noktalarını, TCP dinleyicilerini, 
+UDP uç noktalarını ve UDP dinleyicilerini bulur. IPv4 ve IPv6 arasında ayrım yapar, yerel ve
+uzak IP’yi (varsa), yerel ve uzaktaki bağlantı noktasını (varsa), soketin bağlı olduğu veya
+bağlantı kurulduğu zamanı ve geçerli durumunu (TCP bağlantıları için)  gösterir.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;volatility -f ZAFIYETLI-PC.raw --profile=Win7SP1x64 --kdbg=0xf80001a570a0 netscan
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/volatility/netscan.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      Fiziksel bellekteki FILE_OBJECT’leri bulmak için &lt;strong&gt;FILESCAN&lt;/strong&gt;
+komutunu kullanırız.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;volatility -f ZAFIYETLI-PC.raw --profile=Win7SP1x64 --kdbg=0xf80001a570a0 filescan
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/volatility/filescan.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      Bir sonraki taramamız &lt;strong&gt;PSSCAN&lt;/strong&gt; taraması. Bu daha önce sona eren işlemleri (etkin olmayan) ve 
+bir rootkit tarafından gizlenmiş veya bağlantısız olan işlemleri bulabilir. Diğer yandan da
+işlem listesini bir ağaç yapısında görüntülemek için, &lt;strong&gt;PSTREE&lt;/strong&gt; komutunu kullanırız. Bu süreçleri pslist ile 
+aynı tekniği kullanarak numaralandırır, bu nedenle de gizli veya bağlantısız süreçler gösterilmez.
+Child process’ler, girinti ve süreler kullanılarak belirtilir&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;volatility -f ZAFIYETLI-PC.raw --profile=Win7SP1x64 --kdbg=0xf80001a570a0 psscan
+volatility -f ZAFIYETLI-PC.raw --profile=Win7SP1x64 --kdbg=0xf80001a570a0 pstree
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/volatility/pstree.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h4&gt;Uygulama&lt;/h4&gt;
+
+&lt;p&gt;      Bellekte kayıt defterinin sanal adreslerini ve karşılık gelen disk üzerindeki 
+tam yolları bulmak için, &lt;strong&gt;HIVELIST&lt;/strong&gt; komutunu kullanırız.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;volatility -f ZAFIYETLI-PC.raw --profile=Win7SP1x64 --kdbg=0xf80001a570a0 hivelist
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/volatility/hivelist.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      Burada bir uygulama gerçekleştireceğiz. Windows makinenin kullanıcı parolasını dump edip 
+kırmaya çalışacağız.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;volatility -f ZAFIYETLI-PC.raw --profile=Win7SP1x64 --kdbg=0xf80001a570a0  hashdump -s 0xfffff8a000aa2010 -y 0xfffff8a000023010 &amp;gt; hash.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/volatility/hashdump.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      Burada -s parametresi \SystemRoot\System32\Config\SAM kısmını, -y parametresi de 
+\REGISTRY\MACHINE\SYSTEM kısmını alıyor . Hash değerlerini aldıktan sonra &lt;strong&gt;OPHCRACK&lt;/strong&gt;
+aracını kullanarak parolayı buluyoruz.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/volatility/ophcrack.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      Bir işlemin yüklenmiş DLL’lerini görüntülemek için &lt;strong&gt;DLLLIST&lt;/strong&gt; komutunu kullanırız.
+Bir süreç LoadLibrary (veya LdrLoadDll gibi bazı türevleri) çağırdığında DLL’ler otomatik 
+olarak bu listeye eklenir.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;volatility -f ZAFIYETLI-PC.raw --profile=Win7SP1x64 --kdbg=0xf80001a570a0 dlllist
+volatility -f ZAFIYETLI-PC.raw --profile=Win7SP1x64 --kdbg=0xf80001a570a0 dlllist -p 2624
+volatility -f ZAFIYETLI-PC2.raw --profile=Win7SP1x64 --kdbg=0xf80001a570a0 dlldump  --pid 2356 --dump-dir=.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/volatility/dlllist.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      Bir işleme ait açık handles’ları görüntülemek için, &lt;strong&gt;HANDLES&lt;/strong&gt; komutunu kullanırız. Bu, dosyalar, 
+kayıt defteri anahtarları, muteksler, adlandırılmış kanallar, olaylar, pencere istasyonları, 
+masaüstleri, iş parçacıkları ve diğer tüm yürütülebilir nesne türleri için geçerlidir.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;volatility -f ZAFIYETLI-PC2.raw --profile=Win7SP1x64 --kdbg=0xf80001a570a0 handles -p 2624
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/volatility/handles.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      UserAssist yardımcı programı, bir Windows makinesinde çalıştırılan programların sayısını,son yürütme 
+tarihini ve saatini içeren bir program tablosunu görüntüler. Windows Gezgini, bu bilgileri UserAssist kayıt defteri girdileri içinde tutar.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;volatility -f ZAFIYETLI-PC.raw --profile=Win7SP1x64 --kdbg=0xf80001a570a0 userassist
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/volatility/userassist.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      &lt;strong&gt;CMDSCAN&lt;/strong&gt; eklentisi, bir konsol kabuğu (cmd.exe) üzerinden girilen komutlar için
+XP / 2003 / Vista / 2008’de csrss.exe ve Windows 7’de conhost.exe belleklerini arar.&lt;/p&gt;
+
+&lt;p&gt;      MaxHistory değerinin cmd.exe penceresinin sol 
+üst köşesinde sağ tıklayarak Özellikler’e gelerek değiştirilebilir. 
+Windows sistemlerinde varsayılan değer 50’dir, yani en son 50 komut kaydedilir.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  volatility -f ZAFIYETLI-PC.raw --profile=Win7SP1x64 --kdbg=0xf80001a570a0 cmdscan
+volatility -f ZAFIYETLI-PC3.raw --profile=Win7SP1x64 --kdbg=0xf80001a570a0 consoles
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/volatility/consoles.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      &lt;strong&gt;IEHISTORY&lt;/strong&gt; eklentisi IE geçmişi önbellek dosyalarının parçalarını kurtarır. 
+Erişilen temel bağlantıları (FTP veya HTTP üzerinden), bulabilirsiniz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;volatility -f ZAFIYETLI-PC2.raw --profile=Win7SP1x64 --kdbg=0xf80001a570a0 iehistory
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/volatility/iehistory.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      Çalışan Windows Servislerini görmek için &lt;strong&gt;SVCSCAN&lt;/strong&gt; taraması yapıyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;volatility -f ZAFIYETLI-PC2.raw --profile=Win7SP1x64 --kdbg=0xf80001a570a0 svcscan
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/volatility/svcscan.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      Fiziksel bellekteki DRIVER_OBJECT’leri bulmak için, &lt;strong&gt;DRIVERSCAN&lt;/strong&gt; komutunu kullanırız.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  volatility -f ZAFIYETLI-PC2.raw --profile=Win7SP1x64 --kdbg=0xf80001a570a0 driverscan
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/volatility/driverscan.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      Bir işlemle ilişkili SID’leri (Güvenlik Tanımlayıcıları) görüntülemek için, &lt;strong&gt;GETSIDS&lt;/strong&gt; komutunu 
+kullanırız. Diğer şeylerin yanı sıra, bu, kötü niyetle  ayrıcalıklara ve hangi süreçlerin 
+belirli kullanıcılara ait olduğunu belirlemenize yardımcı olabilir.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;volatility -f ZAFIYETLI-PC2.raw --profile=Win7SP1x64 --kdbg=0xf80001a570a0 getsids
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/volatility/getsids.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;      Tek bir dosyaya bir süreçte yerleşik tüm sayfaları ayıklamak için , &lt;strong&gt;MEMDUMP&lt;/strong&gt; komutunu kullanırız. 
+Çıkış dizinini -D veya –dump-dir = DIR ile sağlarız.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;volatility -f ZAFIYETLI-PC3.raw --profile=Win7SP1x64 --kdbg=0xf80001a570a0 memdump -p  1804 -D RECOVER
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;      Bir işlemin yürütülebilir dosyasını çıkarmak için &lt;strong&gt;PROCDUMP&lt;/strong&gt; komutunu kullanırız.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;volatility -f ZAFIYETLI-PC3.raw --profile=Win7SP1x64 --kdbg=0xf80001a570a0 procdump -p  1804 -D RECOVER
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/volatility/procdump.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h4&gt;Uygulama&lt;/h4&gt;
+
+&lt;p&gt;      Ram imajı alınırken arkada &lt;strong&gt;paint.exe&lt;/strong&gt; açacağız ve bunun RAM’e yansımasını inceleyeceğiz.
+Aldığımız RAM imajından &lt;strong&gt;mspaint.exe&lt;/strong&gt; için memory dump yapıyoruz. Paint için &lt;strong&gt;PID&lt;/strong&gt; numarasını 
+buluyoruz.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;volatility -f ZAFIYETLI-PC5.raw --profile=Win7SP1x64 --kdbg=0xf80001a570a0 psxview
+
+
+volatility -f ZAFIYETLI-PC5.raw --profile=Win7SP1x64 --kdbg=0xf80001a570a0 memdump -p  2724 -D RECOVER
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;      Sonrasında burada çıkan &lt;strong&gt;.dmp&lt;/strong&gt; uzantılı dump dosyasını &lt;strong&gt;.data&lt;/strong&gt; dosyasını çeviriyoruz. Ve GIMP’te açıyoruz.&lt;/p&gt;
+
+&lt;p&gt;NOT: mspaint.exe için çalışırken görev yöneticisine giderek &lt;strong&gt;Applications&lt;/strong&gt; bölümüne gelip
+sağ tıklayarak &lt;strong&gt;CREATE DUMP FILE&lt;/strong&gt; diyerekte dump dosyası alabiliriz.&lt;/p&gt;
+
+&lt;p&gt;      &lt;strong&gt;GIMP&lt;/strong&gt; ‘te offset değerleriyle oynayarak anlamlı bir şey bulmaya çalışırken &lt;strong&gt;test FLAG&lt;/strong&gt;‘i bulmuş oluyoruz.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/volatility/flag.png&quot; /&gt;&lt;/p&gt;
+</description>
+      </item>
     
       <item>
         <title>Kioptrix Level 1 Çözüm</title>
@@ -1934,73 +2155,6 @@ Surname : &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span c
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-
-</description>
-      </item>
-    
-      <item>
-        <title>Jekyll İle Blog Oluşturma</title>
-        <link>http://localhost:4000/jekyll-ile-blog-kurulumu</link>
-        <pubDate>Tue, 14 Mar 2017 00:00:00 +0300</pubDate>
-        <author></author>
-        <description>&lt;p&gt;      Jekyll , Ruby kullanılarak yazılmış bir statik site üreticisidir. Jekyll, markdown ve scss formatında yazdığımız yazıları html ve css kodlarına çevirerek  sitemizi üretir. Bilgisayarımıza ‘RubyGems’ ile jekyll kurmak için aşağıdaki komutu terminale yazabilirsiniz.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gem install jekyll 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;      Jekyll artık kuruldu. Şimdi statik blog sitemizi oluştuma aşamasına geçebiliriz. Site klasörümüzü 
-oluştumak istediğimiz dizine gidip aşağıdaki komutları girerek site klasörünü meydana getirebiliriz.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jekyll new klasor_adi
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;      Klasörümüz oluşturuldu. İlk komut ile dosyaların olduğu dizine gidip sonrasında ikinci komut ile sitemizi
-localhost’umuzda yayınlayabiliriz.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd klasor_adi
-
-jekyll serve 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;      Çalışan servisi tarayıcımızdan http://localhost:4000 adresine giderek görebiliriz. Burada Jekyll’ ın bize 
-default olarak oluşturduğu siteyi göreceğiz. &lt;a href=&quot;http://jekyllthemes.org/&quot;&gt;http://jekyllthemes.org/&lt;/a&gt; adresini ziyaret ederek buradan çevrimiçi tema edinip ,doğrudan  veya üzerinde değişiklikler yaparak kendi blogumuzu düzenleyebiliriz.&lt;/p&gt;
-
-&lt;p&gt;      Oluşturduğumuz siteyi github üzerinden yayınlamak için öncelikle bir github hesabımız olması gerekiyor.
-&lt;a href=&quot;https://github.com/&quot;&gt;https://github.com/&lt;/a&gt; adresini ziyaret ederek bir github hesabi açabiliriz. Oturum açıp profile girdikten sonra Repository bölümüne gelip buradan da new butonuna tıklayarak yenir bir repository oluşturabiliriz.
-Bu repository bizim blogumuzdaki tüm dosyaları tutacak yer olacak. Repository ‘nin adı, &lt;strong&gt;githubkullaniciadi.github.io&lt;/strong&gt; şeklinde olmalıdır. Böylece blog sayfamız için gereken repository ‘i
- oluşturmuş olduk.  Şimdi sitemizi bu repository ‘e yollamaya geldi. Bundan önce sitemizi localhost’dan çıkarıp tüm ağlarda tanınır hale getirecek olduğumuz için site klasörümüz içerisindeki &lt;strong&gt;_config.yml&lt;/strong&gt; dosyasında bir değişiklik yapmamız gerekiyor. Buradaki&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;url : “”&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;kısmını&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;url : “https://githubkullaniciadi.github.io”&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;olarak düzenliyoruz.&lt;/p&gt;
-
-&lt;p&gt;      Şimdi sıra geldi dosyalarımız github repository’ imize yollamaya. Bunun için terminale gelip aşağıdaki komutları yazabiliriz ve dosyalarımızı gönderebiliriz.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd klasor_adi
-
-git init
-
-git remote add origin https://github.com/githubkullaniciadi/githubkullaniciadi.github.io.git
-
-git add -A
-
-git commit -m &quot;gönderi&quot;
-
-git push origin master
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;      Jekyll kullanımı kolay ve github üzerinden çalışabilen güncel bir servistir. Değişiklikler anlamında daha fazla hareket edebilmek ve kullanışlı olması açısından  için &lt;strong&gt;Markdown&lt;/strong&gt; syntax yapısı araştırılabilir.&lt;/p&gt;
 
 </description>
       </item>
